@@ -26,7 +26,7 @@
         android:layout_centerHorizontal="true"></View>
 
     <TextView
-        android:id="@+id/NameText"
+        android:id="@+id/UsernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/Space1"
@@ -75,6 +75,7 @@
         android:layout_toLeftOf="@+id/Space2"
         android:layout_centerHorizontal="true"
         android:text="Sign Up"
+        android:onClick="signUp"
         />
 
     <Button
