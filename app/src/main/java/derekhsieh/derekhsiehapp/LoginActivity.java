@@ -52,6 +52,16 @@ public class LoginActivity extends Activity {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        String user = ((EditText) findViewById(R.id.Username)).getText().toString();
+        String password = ((EditText) findViewById(R.id.Password)).getText().toString();
+
+        savedInstanceState.putString("user", user);
+        savedInstanceState.putString("password", password);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
