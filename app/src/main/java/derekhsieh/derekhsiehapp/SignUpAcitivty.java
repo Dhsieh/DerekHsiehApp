@@ -76,6 +76,7 @@ public class SignUpAcitivty extends ActionBarActivity {
         savedInstanceState.putString("email", email);
         savedInstanceState.putString("first_name", first_name);
         savedInstanceState.putString("last_name", last_name);
+        System.out.println();
         super.onSaveInstanceState(savedInstanceState);
     }
 

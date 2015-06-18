@@ -3,6 +3,8 @@ package derekhsieh.derekhsiehapp;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -24,9 +26,10 @@ import java.util.List;
  * Created by derekhsieh on 6/8/15.
  */
 public class AsyncTaskRunner extends AsyncTask<String, String, String> {
+    private Gson gson = new Gson();
     @Override
     protected String doInBackground(String... params) {
-        String toReturn = "";
+        List<String> responseList = null;
         int parameters = params.length;
         if (parameters == 2) {
             HttpClient client = new DefaultHttpClient();
@@ -37,52 +40,53 @@ public class AsyncTaskRunner extends AsyncTask<String, String, String> {
             try {
                 post.setEntity(new UrlEncodedFormEntity(toPost));
                 HttpResponse response = client.execute(post);
-                toReturn = readResponse(response);
+                responseList = readResponse(response);
             } catch (UnsupportedEncodingException e) {
                 Log.e("UnsupportedEncoding", e.getMessage());
             } catch (ClientProtocolException e) {
-               Log.e("ClientProtocolException", e.getMessage());
+                Log.e("ClientProtocolException", e.getMessage());
             } catch (IOException e) {
-               Log.e("IOException", e.getMessage());
+                Log.e("IOException", e.getMessage());
             }
-        }else if(parameters == 3){
-
-        } HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/LoginServlet");
-        List<NameValuePair> toPost = new ArrayList<>();
-        toPost.add(new BasicNameValuePair("username", params[0]));
-        toPost.add(new BasicNameValuePair("password", params[1]));
-        try {
-            post.setEntity(new UrlEncodedFormEntity(toPost));
-            HttpResponse response = client.execute(post);
-            toReturn = readResponse(response);
-        } catch (UnsupportedEncodingException e) {
-            Log.e("UnsupportedEncoding", e.getMessage());
-        } catch (ClientProtocolException e) {
-            Log.e("ClientProtocolException", e.getMessage());
-        } catch (IOException e) {
-            Log.e("IOException", e.getMessage());
+        } else if (parameters == 5) {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/LoginServlet");
+            List<NameValuePair> toPost = new ArrayList<>();
+            toPost.add(new BasicNameValuePair("username", params[0]));
+            toPost.add(new BasicNameValuePair("password", params[1]));
+            toPost.add(new BasicNameValuePair("email", params[2]));
+            toPost.add(new BasicNameValuePair("first_name", params[3]));
+            toPost.add(new BasicNameValuePair("last_name", params[4]));
+            try {
+                post.setEntity(new UrlEncodedFormEntity(toPost));
+                HttpResponse response = client.execute(post);
+                responseList = readResponse(response);
+            } catch (UnsupportedEncodingException e) {
+                Log.e("UnsupportedEncoding", e.getMessage());
+            } catch (ClientProtocolException e) {
+                Log.e("ClientProtocolException", e.getMessage());
+            } catch (IOException e) {
+                Log.e("IOException", e.getMessage());
+            }
         }
-
-        return toReturn;
+        return gson.toJson(responseList);
     }
 
-    private String readResponse(HttpResponse response) {
+    private List<String> readResponse(HttpResponse response) {
+        ArrayList<String> toReturn = new ArrayList<>();
         InputStream is = null;
         String return_text = "";
         try {
             is = response.getEntity().getContent();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
             String line = "";
-            StringBuffer sb = new StringBuffer();
             while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
+                toReturn.add(line);
             }
-            return_text = sb.toString();
         } catch (Exception e) {
 
         }
-        return return_text;
+        return toReturn;
 
     }
 

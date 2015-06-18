@@ -12,12 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends Activity {
     private Button login;
     private AsyncTask<String, String, String> asyncTask;
+    private Gson gson;
 
 
     @Override
@@ -39,8 +44,12 @@ public class LoginActivity extends Activity {
             AsyncTaskRunner runner = new AsyncTaskRunner();
             asyncTask = runner.execute(user, password);
             String answer = asyncTask.get();
-            if (answer.contains("true")) {
+            List<String> responses = gson.fromJson(answer, List.class);
+            if (responses.get(0).contains("true")) {
                 Toast.makeText(getApplicationContext(), "correct!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainPageActivity.class);
+                intent.putStringArrayListExtra("serverResponse", (ArrayList<String>) responses);
+                startActivity(intent);
             } else
                 Toast.makeText(getApplicationContext(), "Wrong user or password", Toast.LENGTH_SHORT).show();
         }
