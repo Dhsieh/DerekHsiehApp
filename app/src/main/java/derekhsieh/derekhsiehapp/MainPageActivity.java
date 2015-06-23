@@ -1,5 +1,6 @@
 package derekhsieh.derekhsiehapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,17 +11,17 @@ import java.util.List;
 
 public class MainPageActivity extends ActionBarActivity {
 
+    private String user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         Bundle extras = getIntent().getExtras();
-        List<String> response;
-        if(extras != null){
-            response = extras.getStringArrayList("serverResponse");
-            int noFriendRequests = Integer.valueOf(response.get(1));
-            //show number of notifications
-        }
+        String user = extras.getString("user");
+        List<String> response = extras.getStringArrayList("serverResponse");
+        int noFriendRequests = Integer.valueOf(response.get(1));
+        //show number of notifications
     }
 
     @Override
@@ -28,6 +29,11 @@ public class MainPageActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_page, menu);
         return true;
+    }
+
+    public void goToFriendRequests() {
+        Intent goTofFriendRequestActivity = new Intent(this, FriendRequestActivity.class);
+        startActivity(goTofFriendRequestActivity);
     }
 
     @Override

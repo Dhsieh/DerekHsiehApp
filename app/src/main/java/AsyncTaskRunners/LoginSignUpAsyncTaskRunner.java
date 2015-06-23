@@ -1,4 +1,4 @@
-package derekhsieh.derekhsiehapp;
+package AsyncTaskRunners;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,7 +25,9 @@ import java.util.List;
 /**
  * Created by derekhsieh on 6/8/15.
  */
-public class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+//handles login and signup activities
+public class LoginSignUpAsyncTaskRunner extends AsyncTask<String, String, String> {
     private Gson gson = new Gson();
     @Override
     protected String doInBackground(String... params) {

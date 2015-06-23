@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import AsyncTaskRunners.LoginSignUpAsyncTaskRunner;
+
 
 public class LoginActivity extends Activity {
     private Button login;
@@ -41,14 +43,16 @@ public class LoginActivity extends Activity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-            AsyncTaskRunner runner = new AsyncTaskRunner();
+            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner();
             asyncTask = runner.execute(user, password);
             String answer = asyncTask.get();
             List<String> responses = gson.fromJson(answer, List.class);
             if (responses.get(0).contains("true")) {
                 Toast.makeText(getApplicationContext(), "correct!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainPageActivity.class);
+                responses.remove(0);
                 intent.putStringArrayListExtra("serverResponse", (ArrayList<String>) responses);
+                intent.putExtra("username", user);
                 startActivity(intent);
             } else
                 Toast.makeText(getApplicationContext(), "Wrong user or password", Toast.LENGTH_SHORT).show();

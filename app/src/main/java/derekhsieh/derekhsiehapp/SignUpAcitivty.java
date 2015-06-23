@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+import AsyncTaskRunners.LoginSignUpAsyncTaskRunner;
+
 
 public class SignUpAcitivty extends ActionBarActivity {
     private AsyncTask<String, String, String> asyncTask;
@@ -46,7 +48,7 @@ public class SignUpAcitivty extends ActionBarActivity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-            AsyncTaskRunner runner = new AsyncTaskRunner();
+            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner();
             asyncTask = runner.execute(user, password, email, first_name, last_name, "signup");
             String answer = asyncTask.get();
             if (answer.contains("true"))
