@@ -35,7 +35,7 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTask<String, String, String
         int parameters = params.length;
         if (parameters == 2) {
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/LoginServlet");
+            HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/Login");
             List<NameValuePair> toPost = new ArrayList<>();
             toPost.add(new BasicNameValuePair("username", params[0]));
             toPost.add(new BasicNameValuePair("password", params[1]));
@@ -52,7 +52,7 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTask<String, String, String
             }
         } else if (parameters == 5) {
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/LoginServlet");
+            HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/AddUser");
             List<NameValuePair> toPost = new ArrayList<>();
             toPost.add(new BasicNameValuePair("username", params[0]));
             toPost.add(new BasicNameValuePair("password", params[1]));
@@ -77,7 +77,6 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTask<String, String, String
     private List<String> readResponse(HttpResponse response) {
         ArrayList<String> toReturn = new ArrayList<>();
         InputStream is = null;
-        String return_text = "";
         try {
             is = response.getEntity().getContent();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));

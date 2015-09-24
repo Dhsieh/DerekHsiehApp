@@ -5,8 +5,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import java.util.List;
+
+import Serializer.Serializer;
 
 
 public class MainPageActivity extends ActionBarActivity {
@@ -20,8 +23,11 @@ public class MainPageActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         String user = extras.getString("user");
         List<String> response = extras.getStringArrayList("serverResponse");
-        int noFriendRequests = Integer.valueOf(response.get(1));
+        int noFriendRequests = Integer.valueOf(response.get(0));
+        List<String> friendList = (List<String>) Serializer.toObject(response.get(1));
+        ((Button) findViewById(R.id.NumFriendRequests)).setText(noFriendRequests);
         //show number of notifications
+        // show friends
     }
 
     @Override
@@ -34,6 +40,11 @@ public class MainPageActivity extends ActionBarActivity {
     public void goToFriendRequests() {
         Intent goTofFriendRequestActivity = new Intent(this, FriendRequestActivity.class);
         startActivity(goTofFriendRequestActivity);
+    }
+
+    public void goToFriendLists(){
+        Intent goToFriendListActivity = new Intent(this, FriendListActivity.class );
+        startActivity(goToFriendListActivity);
     }
 
     @Override

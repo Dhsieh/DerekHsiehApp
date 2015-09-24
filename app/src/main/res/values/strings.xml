@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_up_acitivty">SignUpAcitivty</string>
     <string name="title_activity_main_page">MainPageActivity</string>
+    <string name="title_activity_friend_request">FriendRequestActivity</string>
+    <string name="title_activity_friend_list">FriendListActivity</string>
 </resources>

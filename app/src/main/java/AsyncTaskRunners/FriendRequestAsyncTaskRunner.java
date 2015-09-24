@@ -29,7 +29,7 @@ public class FriendRequestAsyncTaskRunner extends AsyncTask<String, String, List
     protected List<String> doInBackground(String... params) {
         int noParams = params.length;
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/FriendRequestServlet");
+        HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/FriendRequest");
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
 

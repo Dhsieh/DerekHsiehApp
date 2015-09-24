@@ -1,0 +1,60 @@
+package derekhsieh.derekhsiehapp;
+
+import android.app.ListActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Adapters.FriendListAdapter;
+
+
+public class FriendListActivity extends ListActivity {
+    private List<String> friendList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.friendList = savedInstanceState.getStringArrayList("friend_list");
+        } else {
+            setContentView(R.layout.activity_friend_list);
+            Bundle extras = getIntent().getExtras();
+            this.friendList = extras.getStringArrayList("friendList");
+        }
+        FriendListAdapter adapter = new FriendListAdapter(this, friendList);
+        setListAdapter(adapter);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_friend_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("friend_list", (ArrayList<String>) this.friendList);
+    }
+}

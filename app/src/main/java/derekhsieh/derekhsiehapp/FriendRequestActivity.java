@@ -33,7 +33,9 @@ public class FriendRequestActivity extends ListActivity {
             List<String> requests = asyncTask.get();
             this.adapter = new FriendRequestAdapter(this, requests, username);
             //show number of friend requests
-            ListView listView  = (ListView) findViewById(R.id.listview);
+            setListAdapter(adapter);
+//            ListView listView  = (ListView) findViewById(R.id.listview);
+//            listView.setAdapter(adapter);
         } catch (InterruptedException e) {
             Log.e("InterruptedException", e.getMessage());
         } catch (ExecutionException e) {

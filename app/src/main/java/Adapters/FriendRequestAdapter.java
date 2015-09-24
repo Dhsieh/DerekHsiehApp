@@ -50,7 +50,7 @@ public class FriendRequestAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView != null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.listfriend, parent, false);
+            convertView = inflater.inflate(R.layout.friend_request_list, parent, false);
         }
         TextView name = (TextView) convertView.findViewById(R.id.FriendName);
         name.setText(dataSource.get(position).getFriend());

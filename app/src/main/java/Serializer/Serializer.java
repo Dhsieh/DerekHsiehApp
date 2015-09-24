@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +15,7 @@ import java.io.IOException;
  */
 public class Serializer {
     //Static methods of serializing and deserializing
+    private static Gson gson = new Gson();
     public Serializer(){
 
     }
@@ -46,6 +48,9 @@ public class Serializer {
             }
         }
         return null;
+    }
 
+    public static Object toObject(String string){
+        return gson.fromJson(string, Object.class);
     }
 }

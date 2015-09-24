@@ -28,7 +28,7 @@ public class RespondFriendRequestsAsyncTaskRunner extends AsyncTask<String, Stri
         //accept
 
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/FriendRequestResponseServlet");
+        HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/FriendRequestResponse");
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
         toPost.add(new BasicNameValuePair("status", params[1]));
