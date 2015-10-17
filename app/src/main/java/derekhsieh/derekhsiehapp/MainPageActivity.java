@@ -5,8 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import Serializer.Serializer;
@@ -15,17 +19,18 @@ import Serializer.Serializer;
 public class MainPageActivity extends ActionBarActivity {
 
     private String user;
+    private ArrayList<String> friendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         Bundle extras = getIntent().getExtras();
-        String user = extras.getString("user");
+         user = extras.getString("username");
         List<String> response = extras.getStringArrayList("serverResponse");
-        int noFriendRequests = Integer.valueOf(response.get(0));
-        List<String> friendList = (List<String>) Serializer.toObject(response.get(1));
-        ((Button) findViewById(R.id.NumFriendRequests)).setText(noFriendRequests);
+        int noFriendRequests = Integer.valueOf(response.remove(0));
+        friendList = (response.size() > 0) ? (ArrayList<String>) Serializer.toObject(response.get(0)) : null;
+        ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(noFriendRequests));
         //show number of notifications
         // show friends
     }
@@ -42,8 +47,10 @@ public class MainPageActivity extends ActionBarActivity {
         startActivity(goTofFriendRequestActivity);
     }
 
-    public void goToFriendLists(){
-        Intent goToFriendListActivity = new Intent(this, FriendListActivity.class );
+    public void goToFriendList(View view) {
+        Intent goToFriendListActivity = new Intent(this, FriendListActivity.class);
+        goToFriendListActivity.putExtra("username", user);
+        goToFriendListActivity.putStringArrayListExtra("friend_list", friendList);
         startActivity(goToFriendListActivity);
     }
 

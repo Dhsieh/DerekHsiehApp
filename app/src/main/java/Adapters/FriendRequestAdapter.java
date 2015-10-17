@@ -28,7 +28,7 @@ public class FriendRequestAdapter extends BaseAdapter {
         this.dataSource = getDataForView(requests);
         this.context = context;
         this.username = username;
-        taskRunner = new FriendRequestAsyncTaskRunner();
+        taskRunner = new FriendRequestAsyncTaskRunner(context);
     }
 
     @Override

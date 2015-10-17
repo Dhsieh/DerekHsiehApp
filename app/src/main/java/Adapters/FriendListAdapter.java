@@ -18,7 +18,7 @@ public class FriendListAdapter extends BaseAdapter {
     private List<String> friends;
     private Context context;
 
-    public FriendListAdapter(Context context, List<String> friends){
+    public FriendListAdapter(Context context, List<String> friends) {
         this.context = context;
         this.friends = friends;
     }
@@ -40,10 +40,8 @@ public class FriendListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView != null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.friend_list, parent, false);
-        }
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.friend_list, parent, false);
         TextView friend = (TextView) convertView.findViewById(R.id.FriendName);
         friend.setText(friends.get(position));
         return convertView;

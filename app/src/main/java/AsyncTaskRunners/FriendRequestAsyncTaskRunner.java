@@ -1,5 +1,8 @@
 package AsyncTaskRunners;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,14 +25,23 @@ import Serializer.Serializer;
 
 /**
  * Created by derekhsieh on 6/18/15.
+ * Handles getting a user's friends request if there are any.
  */
-public class FriendRequestAsyncTaskRunner extends AsyncTask<String, String, List<String>> {
+public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>> {
+    private Context context;
+    HttpClient client;
+    HttpPost post;
+
+    public FriendRequestAsyncTaskRunner(Context context) {
+
+    }
+
     @Override
     //param 0 = username
     protected List<String> doInBackground(String... params) {
         int noParams = params.length;
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://192.168.1.103:8080/Servlet/FriendRequest");
+        HttpPost post = new HttpPost("https://104.197.114.209:8080/Servlet/FriendRequest");
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
 
@@ -48,7 +60,22 @@ public class FriendRequestAsyncTaskRunner extends AsyncTask<String, String, List
 
     }
 
-    private List<String> readResponse(HttpResponse response) {
+    @Override
+    protected boolean getClient(int params) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            client = new DefaultHttpClient();
+            post = new HttpPost("https://104.197.114.209:8080/Servlet/FreindRequest");
+            return true;
+        } else {
+            //do something
+            return false;
+        }
+    }
+
+    @Override
+    protected List<String> readResponse(HttpResponse response) {
         try {
             byte[] serializedFriendRequests = EntityUtils.toByteArray(response.getEntity());
             return (List<String>) Serializer.toObject(serializedFriendRequests);

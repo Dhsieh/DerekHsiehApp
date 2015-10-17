@@ -15,9 +15,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/accept"
         android:onClick="accept "
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/reject"
+        android:background="@android:color/holo_green_light"
+        android:text="O"
         />
 
     <Button
@@ -25,8 +26,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/reject"
         android:onClick="reject"
-        android:layout_toRightOf="@+id/accept"
-
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_red_light"
+        android:text="X"
+        />
+    <TextView
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/reject"
+        android:layout_centerHorizontal="true"
         />
 
 </RelativeLayout>

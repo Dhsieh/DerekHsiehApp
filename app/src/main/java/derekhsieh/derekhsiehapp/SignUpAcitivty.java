@@ -48,7 +48,7 @@ public class SignUpAcitivty extends ActionBarActivity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner();
+            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner(getApplicationContext());
             asyncTask = runner.execute(user, password, email, first_name, last_name, "signup");
             String answer = asyncTask.get();
             if (answer.contains("true"))

@@ -5,8 +5,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import Adapters.FriendListAdapter;
@@ -18,14 +21,20 @@ public class FriendListActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FriendListAdapter adapter;
+        Bundle extras = getIntent().getExtras();
         if (savedInstanceState != null) {
             this.friendList = savedInstanceState.getStringArrayList("friend_list");
         } else {
-            setContentView(R.layout.activity_friend_list);
-            Bundle extras = getIntent().getExtras();
             this.friendList = extras.getStringArrayList("friendList");
         }
-        FriendListAdapter adapter = new FriendListAdapter(this, friendList);
+        setContentView(R.layout.activity_friend_list);
+        TextView view = (TextView) findViewById(R.id.Username);
+        view.setText(extras.getString("username"));
+        if (friendList != null)
+            adapter = new FriendListAdapter(this, friendList);
+        else
+            adapter = new FriendListAdapter(this, new ArrayList<>(Arrays.asList(new String[]{"test1", "test2"})));
         setListAdapter(adapter);
 
     }

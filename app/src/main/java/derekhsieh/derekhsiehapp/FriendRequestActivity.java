@@ -27,7 +27,7 @@ public class FriendRequestActivity extends ListActivity {
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
         setContentView(R.layout.activity_friend_request);
-        FriendRequestAsyncTaskRunner runner = new FriendRequestAsyncTaskRunner();
+        FriendRequestAsyncTaskRunner runner = new FriendRequestAsyncTaskRunner(getApplicationContext());
         asyncTask = runner.execute(username);
         try {
             List<String> requests = asyncTask.get();

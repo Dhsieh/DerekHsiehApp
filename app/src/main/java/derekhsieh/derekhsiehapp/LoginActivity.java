@@ -1,6 +1,7 @@
 package derekhsieh.derekhsiehapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ public class LoginActivity extends Activity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner();
+            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner(getApplicationContext());
             asyncTask = runner.execute(user, password);
             String answer = asyncTask.get();
             List<String> responses = gson.fromJson(answer, List.class);
