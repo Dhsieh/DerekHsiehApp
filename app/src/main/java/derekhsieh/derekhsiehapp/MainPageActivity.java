@@ -54,10 +54,13 @@ public class MainPageActivity extends ActionBarActivity {
         startActivity(goToFriendListActivity);
     }
 
+<<<<<<< HEAD
     public void goToTakeImage(View view) {
         Intent goToCameraActivity = new Intent(this, CameraActivity.class);
         startActivity(goToCameraActivity);
     }
+=======
+>>>>>>> master
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

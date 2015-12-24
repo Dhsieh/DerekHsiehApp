@@ -33,5 +33,14 @@
         android:onClick="goToFriendList"
         android:layout_alignParentRight="true"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartNewHunt"
+        android:text="Start New Hunt!"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        />
 
 </RelativeLayout>
