@@ -54,6 +54,7 @@ public class MainPageActivity extends ActionBarActivity {
         startActivity(goToFriendListActivity);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
