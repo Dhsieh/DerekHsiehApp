@@ -26,7 +26,7 @@ public class MainPageActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         Bundle extras = getIntent().getExtras();
-         user = extras.getString("username");
+        user = extras.getString("username");
         List<String> response = extras.getStringArrayList("serverResponse");
         int noFriendRequests = Integer.valueOf(response.remove(0));
         friendList = (response.size() > 0) ? (ArrayList<String>) Serializer.toObject(response.get(0)) : null;
@@ -43,8 +43,9 @@ public class MainPageActivity extends ActionBarActivity {
     }
 
     public void goToFriendRequests(View view) {
-        Intent goTofFriendRequestActivity = new Intent(this, FriendRequestActivity.class);
-        startActivity(goTofFriendRequestActivity);
+        Intent goToFriendRequestActivity = new Intent(this, FriendRequestActivity.class);
+        goToFriendRequestActivity.putExtra("username", user);
+        startActivity(goToFriendRequestActivity);
     }
 
     public void goToFriendList(View view) {
@@ -54,13 +55,10 @@ public class MainPageActivity extends ActionBarActivity {
         startActivity(goToFriendListActivity);
     }
 
-<<<<<<< HEAD
     public void goToTakeImage(View view) {
         Intent goToCameraActivity = new Intent(this, CameraActivity.class);
         startActivity(goToCameraActivity);
     }
-=======
->>>>>>> master
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

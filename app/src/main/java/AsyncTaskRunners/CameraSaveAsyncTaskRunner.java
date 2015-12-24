@@ -39,7 +39,7 @@ public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, L
     protected List<String> doInBackground(String... params) {
         int noParams = params.length;
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://192.168.0.115::4567/Servlet/CameraSave");
+        HttpPost post = new HttpPost("https://" + ipAddress + "/Servlet/CameraSave");
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
         toPost.add(new BasicNameValuePair("friend_name", params[1]));
@@ -66,7 +66,7 @@ public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, L
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
-            post = new HttpPost("https://192.168.0.115::4567/Servlet/CameraSave");
+            post = new HttpPost("https://" + ipAddress + "/Servlet/CameraSave");
             return true;
         } else {
             //do something

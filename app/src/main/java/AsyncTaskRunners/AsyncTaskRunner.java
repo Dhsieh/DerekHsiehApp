@@ -11,7 +11,7 @@ import java.util.List;
  * Abstract class for all task runners, easier to modulize them
  */
 public abstract class AsyncTaskRunner<K,E,V> extends AsyncTask<K,E,V> {
-    protected static final String ipAddress = "107.178.215.255:4567:4567";
+    protected static final String ipAddress = "192.168.0.115:4567";
     @Override
     protected abstract V doInBackground(K... ks);
 

@@ -34,11 +34,7 @@ public class RespondFriendRequestsAsyncTaskRunner extends AsyncTaskRunner<String
     protected Boolean doInBackground(String... params) {
         //accept
         HttpClient client = new DefaultHttpClient();
-<<<<<<< HEAD
-        HttpPost post = new HttpPost("https://192.168.0.115:4567/Servlet/FriendRequestResponse");
-=======
         HttpPost post = new HttpPost("https://" + ipAddress + "/Servlet/FriendRequestResponse");
->>>>>>> master
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
         toPost.add(new BasicNameValuePair("status", params[1]));
@@ -65,11 +61,7 @@ public class RespondFriendRequestsAsyncTaskRunner extends AsyncTaskRunner<String
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
-<<<<<<< HEAD
-            post = new HttpPost("https://192.168.0.115:4567/Servlet/FriendRequestResponse");
-=======
             post = new HttpPost("https://" + ipAddress + "Servlet/FriendRequestResponse");
->>>>>>> master
             return true;
         } else {
             //do something
