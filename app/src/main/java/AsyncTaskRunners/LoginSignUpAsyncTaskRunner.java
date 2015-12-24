@@ -98,9 +98,9 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTaskRunner<String, String, 
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
             if (params == 2)
-                post = new HttpPost("http://146.148.62.149:4567/Login");
+                post = new HttpPost("http://192.168.0.115:4567/Login");
             else
-                post = new HttpPost("https://107.178.212.192:4567/AddUser");
+                post = new HttpPost("https://192.168.0.115:4567/AddUser");
             Log.i("received conn", "true");
             post.setHeader("Content-type", "application/json");
             post.setHeader("Accept", "application/json");

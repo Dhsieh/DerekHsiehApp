@@ -16,13 +16,20 @@
         android:id="@+id/takeImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_image"
-        android:layout_centerHorizontal="true"
+        android:text="Take Image"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/acceptImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept Image"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"/>
 
     <ImageView
         android:id="@+id/imageView"
-        android:contentDescription="@string/desc"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"

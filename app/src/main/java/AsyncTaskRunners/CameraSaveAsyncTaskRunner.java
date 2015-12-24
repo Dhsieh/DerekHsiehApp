@@ -3,7 +3,6 @@ package AsyncTaskRunners;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -24,15 +23,14 @@ import java.util.List;
 import Serializer.Serializer;
 
 /**
- * Created by derekhsieh on 6/18/15.
- * Handles getting a user's friends request if there are any.
+ * Created by phoenix on 12/23/15.
  */
-public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>> {
+public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>> {
     private Context context;
     HttpClient client;
     HttpPost post;
 
-    public FriendRequestAsyncTaskRunner(Context context) {
+    public CameraSaveAsyncTaskRunner(Context context) {
 
     }
 
@@ -41,9 +39,11 @@ public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String
     protected List<String> doInBackground(String... params) {
         int noParams = params.length;
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://192.168.0.115::4567/Servlet/FriendRequest");
+        HttpPost post = new HttpPost("https://192.168.0.115::4567/Servlet/CameraSave");
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
+        toPost.add(new BasicNameValuePair("friend_name", params[1]));
+        toPost.add(new BasicNameValuePair("image", params[2]));
 
         try {
             post.setEntity(new UrlEncodedFormEntity(toPost));
@@ -66,7 +66,7 @@ public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
-            post = new HttpPost("https://192.168.0.115::4567/Servlet/FreindRequest");
+            post = new HttpPost("https://192.168.0.115::4567/Servlet/CameraSave");
             return true;
         } else {
             //do something

@@ -42,7 +42,7 @@ public class MainPageActivity extends ActionBarActivity {
         return true;
     }
 
-    public void goToFriendRequests() {
+    public void goToFriendRequests(View view) {
         Intent goTofFriendRequestActivity = new Intent(this, FriendRequestActivity.class);
         startActivity(goTofFriendRequestActivity);
     }
@@ -52,6 +52,11 @@ public class MainPageActivity extends ActionBarActivity {
         goToFriendListActivity.putExtra("username", user);
         goToFriendListActivity.putStringArrayListExtra("friend_list", friendList);
         startActivity(goToFriendListActivity);
+    }
+
+    public void goToTakeImage(View view) {
+        Intent goToCameraActivity = new Intent(this, CameraActivity.class);
+        startActivity(goToCameraActivity);
     }
 
     @Override

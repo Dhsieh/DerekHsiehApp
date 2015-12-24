@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class camera extends ActionBarActivity {
+public class CameraActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap;

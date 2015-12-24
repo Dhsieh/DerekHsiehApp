@@ -7,4 +7,5 @@
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="title_activity_friend_request">FriendRequestActivity</string>
     <string name="title_activity_friend_list">FriendListActivity</string>
+    <string name="title_activity_camera_activity">CameraActivity</string>
 </resources>
