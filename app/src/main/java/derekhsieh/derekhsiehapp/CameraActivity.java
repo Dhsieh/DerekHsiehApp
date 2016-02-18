@@ -1,7 +1,15 @@
 package derekhsieh.derekhsiehapp;
 
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -10,12 +18,31 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import AsyncTaskRunners.CameraSaveAsyncTaskRunner;
+import AsyncTaskRunners.GetImageAsyncTaskRunner;
 
 public class CameraActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private Bitmap imageBitmap;
+    private Bitmap imageBitmap = null;
     private ImageView cameraImageView;
+    private AsyncTask<String, String, Boolean> setAsyncTask;
+    private AsyncTask<String, String, String> getAsyncTask;
+    // TODO: need to use the actual user and friend for the photos
+    private String dummyUser = "fullbright";
+    private String dummyFriend = "quiz";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +61,61 @@ public class CameraActivity extends ActionBarActivity {
                 }
             }
         });
+
+        Button saveImageButton = (Button) findViewById(R.id.saveImageButton);
+        saveImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImage(v);
+                Toast.makeText(getApplicationContext(), "IMAGE SAVED. YISSSS!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button getImageButton = (Button) findViewById(R.id.getImageButton);
+        getImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getImage(v);
+                Toast.makeText(getApplicationContext(), "IMAGE RECEIVED. WASSSUP!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveImage(View view) {
+        if (imageBitmap != null) {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            byte[] byteArray = outputStream.toByteArray();
+            String bitmapString = Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
+            CameraSaveAsyncTaskRunner runner = new CameraSaveAsyncTaskRunner(getApplicationContext());
+            setAsyncTask = runner.execute(dummyUser, dummyFriend, bitmapString);
+            try {
+                Boolean requests = setAsyncTask.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getImage(View view) {
+        GetImageAsyncTaskRunner runner = new GetImageAsyncTaskRunner(getApplicationContext());
+        getAsyncTask = runner.execute(dummyUser, dummyFriend);
+        try {
+            String response = getAsyncTask.get();
+            System.out.println("jello:"+response);
+            if (response != null)
+            {
+                byte [] encodeByte = Base64.decode(response, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
+                imageBitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                cameraImageView.setImageBitmap(imageBitmap);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -79,5 +161,13 @@ public class CameraActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
         imageBitmap = (Bitmap) savedInstanceState.get("image");
         cameraImageView.setImageBitmap(imageBitmap);
+    }
+
+    public static void longInfo(String str) {
+        if(str.length() > 4000) {
+            System.out.println(str.substring(0, 4000));
+            longInfo(str.substring(4000));
+        } else
+            System.out.println(str);
     }
 }

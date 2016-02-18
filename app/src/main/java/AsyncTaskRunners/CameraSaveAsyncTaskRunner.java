@@ -1,6 +1,8 @@
 package AsyncTaskRunners;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -25,7 +27,7 @@ import Serializer.Serializer;
 /**
  * Created by phoenix on 12/23/15.
  */
-public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>> {
+public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, Boolean, List<String>> {
     private Context context;
     HttpClient client;
     HttpPost post;
@@ -36,19 +38,20 @@ public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, L
 
     @Override
     //param 0 = username
-    protected List<String> doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
+        List<String> responseList = null;
         int noParams = params.length;
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://" + ipAddress + "/Servlet/CameraSave");
+        HttpPost post = new HttpPost("http://" + ipAddress + "/SendPhoto");
         List<NameValuePair> toPost = new ArrayList<>();
-        toPost.add(new BasicNameValuePair("username", params[0]));
-        toPost.add(new BasicNameValuePair("friend_name", params[1]));
-        toPost.add(new BasicNameValuePair("image", params[2]));
-
+        toPost.add(new BasicNameValuePair("user", params[0]));
+        toPost.add(new BasicNameValuePair("friend", params[1]));
+        toPost.add(new BasicNameValuePair("photo", params[2]));
         try {
             post.setEntity(new UrlEncodedFormEntity(toPost));
+            Log.i("post", post.toString());
             HttpResponse response = client.execute(post);
-            return readResponse(response);
+            responseList = readResponse(response);
         } catch (UnsupportedEncodingException e) {
             Log.e("UnsupportedEncoding", e.getMessage());
         } catch (ClientProtocolException e) {
@@ -56,7 +59,7 @@ public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, L
         } catch (IOException e) {
             Log.e("IOException", e.getMessage());
         }
-        return new ArrayList<String>();
+        return false;
 
     }
 
@@ -66,7 +69,7 @@ public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, L
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
-            post = new HttpPost("https://" + ipAddress + "/Servlet/CameraSave");
+            post = new HttpPost("https://" + ipAddress + "/Servlet/RetrievePhoto");
             return true;
         } else {
             //do something
@@ -76,13 +79,16 @@ public class CameraSaveAsyncTaskRunner extends AsyncTaskRunner<String, String, L
 
     @Override
     protected List<String> readResponse(HttpResponse response) {
-        try {
-            byte[] serializedFriendRequests = EntityUtils.toByteArray(response.getEntity());
-            return (List<String>) Serializer.toObject(serializedFriendRequests);
-        } catch (IOException e) {
-            Log.e("IOException", e.getMessage());
-        }
-        return new ArrayList<>();
+        return null;
     }
 
+    protected Bitmap readResponseBitmap(HttpResponse response) {
+        try {
+            byte [] bitMapData = EntityUtils.toByteArray(response.getEntity());
+            return BitmapFactory.decodeByteArray(bitMapData, 0, bitMapData.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -27,7 +27,7 @@ import Serializer.Serializer;
  * Created by derekhsieh on 6/18/15.
  * Handles getting a user's friends request if there are any.
  */
-public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>> {
+public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>, List<String>> {
     private Context context;
     HttpClient client;
     HttpPost post;

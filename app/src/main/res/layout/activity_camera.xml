@@ -21,10 +21,18 @@
         android:layout_alignParentBottom="true"/>
 
     <Button
-        android:id="@+id/acceptImageButton"
+        android:id="@+id/getImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accept Image"
+        android:text="Get Image"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/saveImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Image"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"/>
 

@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 //handles login and signup activities
-public class LoginSignUpAsyncTaskRunner extends AsyncTaskRunner<String, String, String> {
+public class LoginSignUpAsyncTaskRunner extends AsyncTaskRunner<String, String, String, List<String>> {
     private Context context;
     private HttpClient client;
     private HttpPost post;
@@ -100,7 +100,7 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTaskRunner<String, String, 
             if (params == 2)
                 post = new HttpPost("http://" + ipAddress + "/Login");
             else
-                post = new HttpPost("https://" + ipAddress + "/AddUser");
+                post = new HttpPost("http://" + ipAddress + "/AddUser");
             Log.i("received conn", "true");
             post.setHeader("Content-type", "application/json");
             post.setHeader("Accept", "application/json");

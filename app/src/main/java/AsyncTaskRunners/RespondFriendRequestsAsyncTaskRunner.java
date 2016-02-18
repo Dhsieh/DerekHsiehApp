@@ -25,7 +25,7 @@ import java.util.List;
  Created by derekhsieh on 6/21/15.
  TaskRunner that sends to the server whether some one accepted a friend request or not
  */
-public class RespondFriendRequestsAsyncTaskRunner extends AsyncTaskRunner<String, String, Boolean> {
+public class RespondFriendRequestsAsyncTaskRunner extends AsyncTaskRunner<String, String, Boolean, List<String>> {
     private Context context;
     private HttpClient client;
     private HttpPost post;
