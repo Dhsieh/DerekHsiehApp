@@ -28,6 +28,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import AsyncTaskRunners.CameraSaveAsyncTaskRunner;
@@ -104,8 +105,8 @@ public class CameraActivity extends ActionBarActivity {
         getAsyncTask = runner.execute(dummyUser, dummyFriend);
         try {
             String response = getAsyncTask.get();
-            System.out.println("jello:"+response);
-            if (response != null)
+            //TODO: Spark requires a non null response otherwise a warning is thrown. Should I do it this way or do not equal to 404 not found?
+            if (!response.equals("null"))
             {
                 byte [] encodeByte = Base64.decode(response, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
                 imageBitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
