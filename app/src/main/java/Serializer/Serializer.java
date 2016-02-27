@@ -35,10 +35,11 @@ public class Serializer {
 
     public static Object toObject(byte[] byteArray){
         ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
-        Hessian2Input deserializer = new Hessian2Input();
+        Hessian2Input deserializer = new Hessian2Input(inputStream);
         try {
             return deserializer.readObject();
         } catch (IOException e) {
+            // TODO: find out why this returns E/IOException: No Classes defined at reference '6e'
             Log.e("IOException", e.getMessage());
         }finally {
             try {

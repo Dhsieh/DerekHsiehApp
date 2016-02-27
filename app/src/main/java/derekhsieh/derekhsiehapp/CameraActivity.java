@@ -1,15 +1,10 @@
 package derekhsieh.derekhsiehapp;
 
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -18,20 +13,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
-import AsyncTaskRunners.CameraSaveAsyncTaskRunner;
+import AsyncTaskRunners.PostImageAsyncTaskRunner;
 import AsyncTaskRunners.GetImageAsyncTaskRunner;
 
 public class CameraActivity extends ActionBarActivity {
@@ -39,16 +27,21 @@ public class CameraActivity extends ActionBarActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private ImageView cameraImageView;
-    private AsyncTask<String, String, Boolean> setAsyncTask;
-    private AsyncTask<String, String, String> getAsyncTask;
     // TODO: need to use the actual user and friend for the photos
-    private String dummyUser = "fullbright";
-    private String dummyFriend = "quiz";
+    private String user;
+    private String friend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        this.user = extras.getString("username");
+        this.friend = extras.getString("friend");
+
         setContentView(R.layout.activity_camera);
+
+        TextView friendNameTextView = (TextView) findViewById(R.id.friendNameTextView);
+        friendNameTextView.setText(friend);
 
         cameraImageView = (ImageView) findViewById(R.id.imageView);
 
@@ -88,8 +81,8 @@ public class CameraActivity extends ActionBarActivity {
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             byte[] byteArray = outputStream.toByteArray();
             String bitmapString = Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
-            CameraSaveAsyncTaskRunner runner = new CameraSaveAsyncTaskRunner(getApplicationContext());
-            setAsyncTask = runner.execute(dummyUser, dummyFriend, bitmapString);
+            PostImageAsyncTaskRunner runner = new PostImageAsyncTaskRunner(getApplicationContext());
+            AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(this.user, this.friend, bitmapString);
             try {
                 Boolean requests = setAsyncTask.get();
             } catch (InterruptedException e) {
@@ -102,15 +95,19 @@ public class CameraActivity extends ActionBarActivity {
 
     private void getImage(View view) {
         GetImageAsyncTaskRunner runner = new GetImageAsyncTaskRunner(getApplicationContext());
-        getAsyncTask = runner.execute(dummyUser, dummyFriend);
+        AsyncTask<String, String, String> getAsyncTask = runner.execute(this.user, this.friend);
         try {
             String response = getAsyncTask.get();
-            //TODO: Spark requires a non null response otherwise a warning is thrown. Should I do it this way or do not equal to 404 not found?
-            if (!response.equals("null"))
+            //TODO: By default, the user should see the image that is part of that scavenger hunt. Should remove get image button.
+            if (response != null)
             {
-                byte [] encodeByte = Base64.decode(response, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
-                imageBitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                cameraImageView.setImageBitmap(imageBitmap);
+                if (response.equals("No image")) {
+                    Toast.makeText(getApplicationContext(), "No image in database", Toast.LENGTH_SHORT).show();
+                } else {
+                    byte[] encodeByte = Base64.decode(response, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
+                    imageBitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                    cameraImageView.setImageBitmap(imageBitmap);
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import derekhsieh.derekhsiehapp.CameraActivity;
 import derekhsieh.derekhsiehapp.R;
+
+import static android.support.v4.app.ActivityCompat.startActivity;
 
 /**
  * Created by derekhsieh on 6/25/15.
@@ -17,9 +21,11 @@ import derekhsieh.derekhsiehapp.R;
 public class FriendListAdapter extends BaseAdapter {
     private List<String> friends;
     private Context context;
+    private String user;
 
-    public FriendListAdapter(Context context, List<String> friends) {
+    public FriendListAdapter(Context context, String user, List<String> friends) {
         this.context = context;
+        this.user = user;
         this.friends = friends;
     }
 
@@ -39,11 +45,21 @@ public class FriendListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.friend_list, parent, false);
         TextView friend = (TextView) convertView.findViewById(R.id.FriendName);
         friend.setText(friends.get(position));
+        friend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent goToCameraActivity = new Intent(context, CameraActivity.class);
+                    goToCameraActivity.putExtra("friend", friends.get(position));
+                    goToCameraActivity.putExtra("username", user);
+                    context.startActivity(goToCameraActivity);
+                }
+            }
+        );
         return convertView;
     }
 }

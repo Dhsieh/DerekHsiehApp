@@ -55,11 +55,6 @@ public class MainPageActivity extends ActionBarActivity {
         startActivity(goToFriendListActivity);
     }
 
-    public void goToTakeImage(View view) {
-        Intent goToCameraActivity = new Intent(this, CameraActivity.class);
-        startActivity(goToCameraActivity);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

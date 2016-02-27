@@ -19,15 +19,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/takeImageButton"
-        android:text="Take Image"
-        android:onClick="goToTakeImage"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/friends"
         android:text="Friends"
         android:onClick="goToFriendList"
