@@ -8,4 +8,11 @@
     <string name="title_activity_friend_request">FriendRequestActivity</string>
     <string name="title_activity_friend_list">FriendListActivity</string>
     <string name="title_activity_camera_activity">CameraActivity</string>
+    <string name="activity_scavenger_take_image">Take Image</string>
+    <string name="activity_scavenger_rate_image">Rate Image</string>
+    <string name="activity_scavenger_send_new_topic">Send a New Topic</string>
+    <string name="dialog_rate_image_send_rating">Send Rating</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_new_topic_send_topic">Send Topic</string>
+
 </resources>

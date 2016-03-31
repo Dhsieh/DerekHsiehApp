@@ -31,7 +31,6 @@
         android:text="Start New Hunt!"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-
         />
 
 </RelativeLayout>

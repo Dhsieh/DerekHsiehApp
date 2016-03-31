@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * Created by phoenix on 2/13/16.
+ * Handles getting images from the server
  */
 public class GetImageAsyncTaskRunner extends AsyncTaskRunner<String, String, String, String> {
     // TODO: Build in protection against no image given a user and friend

@@ -1,8 +1,6 @@
 package AsyncTaskRunners;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -25,34 +23,33 @@ import java.util.List;
 import Serializer.Serializer;
 
 /**
- * Created by phoenix on 12/23/15.
- * Handles sending images to the server
+ * Created by phoenix on 3/30/16.
+ * Handles getting the topic that a friend sent for a new Scavenger Hunt
  */
-public class PostImageAsyncTaskRunner extends AsyncTaskRunner<String, String, Boolean, List<String>> {
+public class GetRatingAsyncTaskRunner extends AsyncTaskRunner<String, String, List<String>, List<String>> {
     private Context context;
     HttpClient client;
     HttpPost post;
 
-    public PostImageAsyncTaskRunner(Context context) {
+    public GetRatingAsyncTaskRunner(Context context) {
 
     }
 
     @Override
     //param 0 = username
-    protected Boolean doInBackground(String... params) {
-        List<String> responseList = null;
+    protected List<String> doInBackground(String... params) {
         int noParams = params.length;
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("http://" + ipAddress + "/SendPhoto");
+        HttpPost post = new HttpPost("http://" + ipAddress + "/GetRating");
         List<NameValuePair> toPost = new ArrayList<>();
-        toPost.add(new BasicNameValuePair("user", params[0]));
+        toPost.add(new BasicNameValuePair("username", params[0]));
         toPost.add(new BasicNameValuePair("friend", params[1]));
-        toPost.add(new BasicNameValuePair("photo", params[2]));
+
         try {
+            // TODO: Stub. Need to implement actual server reply
             post.setEntity(new UrlEncodedFormEntity(toPost));
-            Log.i("post", post.toString());
             HttpResponse response = client.execute(post);
-            responseList = readResponse(response);
+            return readResponse(response);
         } catch (UnsupportedEncodingException e) {
             Log.e("UnsupportedEncoding", e.getMessage());
         } catch (ClientProtocolException e) {
@@ -60,7 +57,8 @@ public class PostImageAsyncTaskRunner extends AsyncTaskRunner<String, String, Bo
         } catch (IOException e) {
             Log.e("IOException", e.getMessage());
         }
-        return false;
+        // TODO: Stub. Need to implement actual server reply
+        return new ArrayList<String>();
 
     }
 
@@ -70,7 +68,7 @@ public class PostImageAsyncTaskRunner extends AsyncTaskRunner<String, String, Bo
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
-            post = new HttpPost("https://" + ipAddress + "/Servlet/RetrievePhoto");
+            post = new HttpPost("http://" + ipAddress + "/GetRating");
             return true;
         } else {
             //do something
@@ -80,16 +78,14 @@ public class PostImageAsyncTaskRunner extends AsyncTaskRunner<String, String, Bo
 
     @Override
     protected List<String> readResponse(HttpResponse response) {
-        return null;
+        try {
+            // TODO: Stub. Need to implement with actual server response if necessary
+            byte[] serializedFriendRequests = EntityUtils.toByteArray(response.getEntity());
+            return (List<String>) Serializer.toObject(serializedFriendRequests);
+        } catch (IOException e) {
+            Log.e("IOException", e.getMessage());
+        }
+        return new ArrayList<>();
     }
 
-    protected Bitmap readResponseBitmap(HttpResponse response) {
-        try {
-            byte [] bitMapData = EntityUtils.toByteArray(response.getEntity());
-            return BitmapFactory.decodeByteArray(bitMapData, 0, bitMapData.length);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
