@@ -1,5 +1,6 @@
 package derekhsieh.derekhsiehapp;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -22,12 +23,17 @@ import java.util.concurrent.ExecutionException;
 import AsyncTaskRunners.PostImageAsyncTaskRunner;
 import AsyncTaskRunners.GetImageAsyncTaskRunner;
 
-public class CameraActivity extends ActionBarActivity {
+/**
+ * Created by phoenix on 12/23/15.
+ * Activity where the user can take a new picture, send a new topic, or rate and image
+ */
+// TODO: I could not come up with a better name for the activity for the life of me, so I'm open to any suggestions.
+public class FriendPageActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Context context = this;
     private Bitmap imageBitmap = null;
     private ImageView cameraImageView;
-    // TODO: need to use the actual user and friend for the photos
     private String user;
     private String friend;
 
@@ -37,18 +43,21 @@ public class CameraActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         this.user = extras.getString("username");
         this.friend = extras.getString("friend");
+        String friendsImage = friend+"'s image";
 
-        setContentView(R.layout.activity_camera);
+        setContentView(R.layout.activity_friend_page);
 
         TextView friendNameTextView = (TextView) findViewById(R.id.friendNameTextView);
-        friendNameTextView.setText(friend);
+        friendNameTextView.setText(friendsImage);
 
         cameraImageView = (ImageView) findViewById(R.id.imageView);
+        getImage();
 
         Button takeImageButton = (Button) findViewById(R.id.takeImageButton);
         takeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Starts default android camera app
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -56,30 +65,66 @@ public class CameraActivity extends ActionBarActivity {
             }
         });
 
-        Button saveImageButton = (Button) findViewById(R.id.saveImageButton);
-        saveImageButton.setOnClickListener(new View.OnClickListener() {
+        Button sendNewTopicButton = (Button) findViewById(R.id.sendNewTopicButton);
+        sendNewTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveImage(v);
-                Toast.makeText(getApplicationContext(), "IMAGE SAVED. YISSSS!!!", Toast.LENGTH_SHORT).show();
+                // Opens a dialog where the user can enter a new topic
+                NewTopicDialog topicDialog = new NewTopicDialog(context);
+                topicDialog.show();
+                topicDialog.setDialogResult(new NewTopicDialog.OnNewTopicDialogResult() {
+                    @Override
+                    public void finish(String result) {
+                        // TODO: Implement on server side before uncommenting
+//                        PostTopicAsyncTaskRunner runner = new PostTopicAsyncTaskRunner(getApplicationContext());
+//                        AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(FriendPageActivity.this.user, FriendPageActivity.this.friend, result);
+//                        try {
+//                            setAsyncTask.get();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        } catch (ExecutionException e) {
+//                            e.printStackTrace();
+//                        }
+                        Toast.makeText(getApplicationContext(), "SENT NEW TOPIC. YISSSS!!! " + result, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
-        Button getImageButton = (Button) findViewById(R.id.getImageButton);
-        getImageButton.setOnClickListener(new View.OnClickListener() {
+        Button rateImageButton = (Button) findViewById(R.id.rateImageButton);
+        rateImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getImage(v);
-                Toast.makeText(getApplicationContext(), "IMAGE RECEIVED. WASSSUP!!!", Toast.LENGTH_SHORT).show();
+
+                // Opens a dialog where the user can select a rating
+                ImageRatingDialog ratingDialog = new ImageRatingDialog(context);
+                ratingDialog.show();
+                ratingDialog.setDialogResult(new ImageRatingDialog.OnImageRatingDialogResult(){
+                    @Override
+                    public void finish(Float result) {
+                        // TODO: Implement on server side before uncommenting
+//                        PostRatingAsyncTaskRunner runner = new PostRatingAsyncTaskRunner(getApplicationContext());
+//                        AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(FriendPageActivity.this.user, FriendPageActivity.this.friend, String.valueOf(result));
+//                        try {
+//                            setAsyncTask.get();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        } catch (ExecutionException e) {
+//                            e.printStackTrace();
+//                        }
+                        Toast.makeText(getApplicationContext(), "SENT RATING. AWWWWWW YEAAA!!! " + String.valueOf(result), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-    private void saveImage(View view) {
+    private void saveImage() {
         if (imageBitmap != null) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             byte[] byteArray = outputStream.toByteArray();
+            // TODO: Use Serializer to send images
             String bitmapString = Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
             PostImageAsyncTaskRunner runner = new PostImageAsyncTaskRunner(getApplicationContext());
             AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(this.user, this.friend, bitmapString);
@@ -93,12 +138,11 @@ public class CameraActivity extends ActionBarActivity {
         }
     }
 
-    private void getImage(View view) {
+    private void getImage() {
         GetImageAsyncTaskRunner runner = new GetImageAsyncTaskRunner(getApplicationContext());
-        AsyncTask<String, String, String> getAsyncTask = runner.execute(this.user, this.friend);
+        AsyncTask<String, String, String> getAsyncTask = runner.execute(this.friend, this.user);
         try {
             String response = getAsyncTask.get();
-            //TODO: By default, the user should see the image that is part of that scavenger hunt. Should remove get image button.
             if (response != null)
             {
                 if (response.equals("No image")) {
@@ -138,13 +182,16 @@ public class CameraActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        /*
+        Handles the return from the android default camera app
+         */
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
-            cameraImageView.setImageBitmap(imageBitmap);
+            saveImage();
         }
     }
 
@@ -154,8 +201,12 @@ public class CameraActivity extends ActionBarActivity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+        /*
+        Ensures that when you rotate the device, the image will still be shown
+        */
         super.onRestoreInstanceState(savedInstanceState);
         imageBitmap = (Bitmap) savedInstanceState.get("image");
         cameraImageView.setImageBitmap(imageBitmap);
