@@ -1,4 +1,4 @@
-package Adapters;
+package friendRequest;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import AsyncTaskRunners.FriendRequestAsyncTaskRunner;
 import Objects.FriendRequests;
@@ -19,13 +20,13 @@ import derekhsieh.derekhsiehapp.R;
  * Created by derekhsieh on 6/21/15.
  */
 public class FriendRequestAdapter extends BaseAdapter {
-    private List<FriendRequests> dataSource;
+    private List<String> friendRequests;
     private final Context context;
     private final String username;
     private final FriendRequestAsyncTaskRunner taskRunner;
 
     public FriendRequestAdapter(Context context, List<String> requests, String username) {
-        this.dataSource = getDataForView(requests);
+        this.friendRequests = requests;
         this.context = context;
         this.username = username;
         taskRunner = new FriendRequestAsyncTaskRunner(context);
@@ -33,12 +34,12 @@ public class FriendRequestAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return dataSource.size();
+        return friendRequests.size();
     }
 
     @Override
-    public FriendRequests getItem(int position) {
-        return dataSource.get(position);
+    public Object getItem(int position) {
+        return friendRequests.get(position);
     }
 
     @Override
@@ -48,19 +49,16 @@ public class FriendRequestAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView != null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.friend_request_list, parent, false);
-        }
-        TextView name = (TextView) convertView.findViewById(R.id.FriendName);
-        name.setText(dataSource.get(position).getFriend());
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.friend_request_list, parent, false);
+        TextView name = (TextView) convertView.findViewById(R.id.RequesteeName);
+        name.setText(friendRequests.get(position));
         Button reject = (Button) convertView.findViewById(R.id.reject);
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String friend = ((TextView) v.findViewById(R.id.FriendName)).getText().toString();
+                String friend = ((TextView) v.findViewById(R.id.RequesteeName)).getText().toString();
                 taskRunner.execute(username, "reject", friend);
-
             }
         });
 
@@ -68,18 +66,11 @@ public class FriendRequestAdapter extends BaseAdapter {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String friend = ((TextView) v.findViewById(R.id.FriendName)).getText().toString();
+                String friend = ((TextView) v.findViewById(R.id.RequesteeName)).getText().toString();
                 taskRunner.execute(username, "accept", friend);
             }
         });
         return convertView;
     }
 
-    private List<FriendRequests> getDataForView(List<String> requests) {
-        ArrayList<FriendRequests> newList = new ArrayList<>();
-        for (int i = 0; i < requests.size(); i++) {
-            newList.add(new FriendRequests(requests.get(i)));
-        }
-        return newList;
-    }
 }

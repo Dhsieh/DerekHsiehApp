@@ -3,7 +3,6 @@ package AsyncTaskRunners;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -18,10 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +45,7 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTaskRunner<String, String, 
         int parameters = params.length;
         if (getClient(parameters)) {
             if (parameters == 2) {
-                Log.i("Login", "Starting Login Process");
+                Log.i("login", "Starting Login Process");
                 List<NameValuePair> toPost = new ArrayList<>();
                 toPost.add(new BasicNameValuePair("username", params[0]));
                 toPost.add(new BasicNameValuePair("password", params[1]));
@@ -98,12 +94,10 @@ public class LoginSignUpAsyncTaskRunner extends AsyncTaskRunner<String, String, 
         if (networkInfo != null && networkInfo.isConnected()) {
             client = new DefaultHttpClient();
             if (params == 2)
-                post = new HttpPost("http://" + ipAddress + "/Login");
+                post = new HttpPost("http://" + ipAddress + "/login");
             else
                 post = new HttpPost("http://" + ipAddress + "/AddUser");
             Log.i("received conn", "true");
-            post.setHeader("Content-type", "application/json");
-            post.setHeader("Accept", "application/json");
             return true;
         } else {
             //do something

@@ -8,18 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import Serializer.Serializer;
+import friendRequest.FriendRequestActivity;
+import friends.FriendListActivity;
 
 
 public class MainPageActivity extends ActionBarActivity {
 
     private String user;
-    private ArrayList<String> friendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +25,9 @@ public class MainPageActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         user = extras.getString("username");
         List<String> response = extras.getStringArrayList("serverResponse");
-        int noFriendRequests = Integer.valueOf(response.remove(0));
-        friendList = (response.size() > 0) ? (ArrayList<String>) Serializer.toObject(response.get(0)) : null;
+        int noFriendRequests = extras.getInt("friendRequests");
         ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(noFriendRequests));
-        //show number of notifications
-        // show friends
+
     }
 
     @Override
@@ -51,7 +46,6 @@ public class MainPageActivity extends ActionBarActivity {
     public void goToFriendList(View view) {
         Intent goToFriendListActivity = new Intent(this, FriendListActivity.class);
         goToFriendListActivity.putExtra("username", user);
-        goToFriendListActivity.putStringArrayListExtra("friend_list", friendList);
         startActivity(goToFriendListActivity);
     }
 

@@ -1,4 +1,4 @@
-package Adapters;
+package friends;
 
 import android.content.Context;
 import android.content.Intent;

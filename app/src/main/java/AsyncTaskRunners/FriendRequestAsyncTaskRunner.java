@@ -44,7 +44,6 @@ public class FriendRequestAsyncTaskRunner extends AsyncTaskRunner<String, String
         HttpPost post = new HttpPost("http://" + ipAddress + "/FriendRequest");
         List<NameValuePair> toPost = new ArrayList<>();
         toPost.add(new BasicNameValuePair("username", params[0]));
-
         try {
             post.setEntity(new UrlEncodedFormEntity(toPost));
             HttpResponse response = client.execute(post);

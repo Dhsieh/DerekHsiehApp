@@ -5,7 +5,7 @@ package Objects;
  */
 
 //used to populate list view of friend reqeusts
-public class FriendRequests  {
+public class FriendRequests {
     String friend;
 
     public FriendRequests() {
