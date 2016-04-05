@@ -22,8 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Serializer.Serializer;
-
 /**
  * Created by phoenix on 12/23/15.
  * Handles sending images to the server

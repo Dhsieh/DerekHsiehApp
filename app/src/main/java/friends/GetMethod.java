@@ -2,8 +2,6 @@ package friends;
 
 import java.util.List;
 
-import login.Login;
-import login.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUpAcitivty"
+            android:name="signUp.SignUpAcitivty"
             android:label="@string/title_activity_sign_up_acitivty" >
         </activity>
         <activity

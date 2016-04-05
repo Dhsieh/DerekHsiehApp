@@ -1,5 +1,6 @@
-package derekhsieh.derekhsiehapp;
+package signUp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +15,14 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 import AsyncTaskRunners.LoginSignUpAsyncTaskRunner;
+import RetroFitInterfaces.RetroFitInterface;
+import Utils.Constants;
+import derekhsieh.derekhsiehapp.MainPageActivity;
+import derekhsieh.derekhsiehapp.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class SignUpAcitivty extends ActionBarActivity {
@@ -36,7 +45,7 @@ public class SignUpAcitivty extends ActionBarActivity {
 
 
     public void signUp(View view) throws ExecutionException, InterruptedException {
-        String user = ((EditText) findViewById(R.id.Username)).getText().toString();
+        final String user = ((EditText) findViewById(R.id.Username)).getText().toString();
         String password = ((EditText) findViewById(R.id.Password)).getText().toString();
         String email = ((EditText) findViewById(R.id.Email)).getText().toString();
         String first_name = ((EditText) findViewById(R.id.FirstName)).getText().toString();
@@ -49,12 +58,32 @@ public class SignUpAcitivty extends ActionBarActivity {
             noUserOrPass.show();
         } else {
             LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner(getApplicationContext());
+            Retrofit retrofit = RetroFitInterface.createRetroFit();
+            PostMethod toPost = retrofit.create(PostMethod.class);
+            Call<Boolean> call = toPost.getResponse("AddUser", new SignUpRequest(user, password, email, first_name, last_name));
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body()) {
+                            Toast.makeText(getApplicationContext(), "User has been added", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignUpAcitivty.this, MainPageActivity.class);
+                            intent.putExtra(Constants.friendRequests, 0);
+                            intent.putExtra(Constants.username, user);
+                        } else
+                            Toast.makeText(getApplicationContext(), "User has not been added", Toast.LENGTH_SHORT);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error when trying to sign up", Toast.LENGTH_SHORT);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
             asyncTask = runner.execute(user, password, email, first_name, last_name, "signup");
             String answer = asyncTask.get();
-            if (answer.contains("true"))
-                Toast.makeText(getApplicationContext(), "User has been added", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(getApplicationContext(), "User has not been added", Toast.LENGTH_SHORT);
         }
     }
 
@@ -78,7 +107,6 @@ public class SignUpAcitivty extends ActionBarActivity {
         savedInstanceState.putString("email", email);
         savedInstanceState.putString("first_name", first_name);
         savedInstanceState.putString("last_name", last_name);
-        System.out.println();
         super.onSaveInstanceState(savedInstanceState);
     }
 

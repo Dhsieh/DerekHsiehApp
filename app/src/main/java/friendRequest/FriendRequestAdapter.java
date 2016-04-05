@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 import AsyncTaskRunners.FriendRequestAsyncTaskRunner;
-import Objects.FriendRequests;
 import derekhsieh.derekhsiehapp.R;
 
 /**

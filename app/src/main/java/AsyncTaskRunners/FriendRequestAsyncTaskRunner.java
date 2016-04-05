@@ -3,7 +3,6 @@ package AsyncTaskRunners;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -21,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Serializer.Serializer;
+import Utils.Serializer;
 
 /**
  * Created by derekhsieh on 6/18/15.

@@ -20,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Serializer.Serializer;
+import Utils.Serializer;
 
 /**
  * Created by phoenix on 2/26/16.
