@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Utils.RetroFit.RetroFitInterface;
 import Utils.RetroFit.ToGet;
 import derekhsieh.derekhsiehapp.R;
 import okhttp3.Interceptor;
@@ -35,16 +36,7 @@ public class FriendRequestActivity extends ListActivity {
         username = extras.getString("username");
 
 
-        OkHttpClient okClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                return chain.proceed(chain.request());
-            }
-        }).build();
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.0.103:4567")
-                .addConverterFactory(GsonConverterFactory.create()).client(okClient).build();
-
+        Retrofit retrofit = RetroFitInterface.createRetroFit();
         ToGet toGet = retrofit.create(ToGet.class);
         Call<List<String>> call = toGet.getListForUser("GetFriendRequests", username);
         call.enqueue(new Callback<List<String>>() {
@@ -71,22 +63,6 @@ public class FriendRequestActivity extends ListActivity {
 
             }
         });
-
-
-//        FriendRequestAsyncTaskRunner runner = new FriendRequestAsyncTaskRunner(getApplicationContext());
-//        asyncTask = runner.execute(username);
-//        try {
-//            List<String> requests = asyncTask.get();
-//            this.adapter = new FriendRequestAdapter(this, requests, username);
-//            //show number of friend requests
-//            setListAdapter(adapter);
-////            ListView listView  = (ListView) findViewById(R.id.listview);
-////            listView.setAdapter(adapter);
-//        } catch (InterruptedException e) {
-//            Log.e("InterruptedException", e.getMessage());
-//        } catch (ExecutionException e) {
-//            Log.e("InterruptedException", e.getMessage());
-//        }
     }
 
 

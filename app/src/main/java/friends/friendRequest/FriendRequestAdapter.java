@@ -11,7 +11,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import AsyncTaskRunners.FriendRequestAsyncTaskRunner;
+import Utils.RetroFit.RetroFitInterface;
+import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by derekhsieh on 6/21/15.
@@ -50,12 +56,28 @@ public class FriendRequestAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.friend_request_list, parent, false);
         TextView name = (TextView) convertView.findViewById(R.id.RequesteeName);
         name.setText(friendRequests.get(position));
-        Button reject = (Button) convertView.findViewById(R.id.reject);
+        final Button reject = (Button) convertView.findViewById(R.id.reject);
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String friend = ((TextView) v.findViewById(R.id.RequesteeName)).getText().toString();
-                taskRunner.execute(username, "reject", friend);
+                Retrofit retrofit = RetroFitInterface.createRetroFit();
+                ToPost toPost = retrofit.create(ToPost.class);
+                Call<Boolean> call = toPost.postFriendRequestResponse("/FriendRequestResponse",
+                        new FriendRequestRequest(username, friend, false));
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if (response.isSuccessful()) {
+                            //Remove friend request from activity
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
@@ -64,7 +86,24 @@ public class FriendRequestAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String friend = ((TextView) v.findViewById(R.id.RequesteeName)).getText().toString();
-                taskRunner.execute(username, "accept", friend);
+                Retrofit retrofit = RetroFitInterface.createRetroFit();
+                ToPost toPost = retrofit.create(ToPost.class);
+                Call<Boolean> call = toPost.postFriendRequestResponse("/FriendRequestResponse",
+                        new FriendRequestRequest(username, friend,true));
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        if(response.isSuccessful()){
+                            //Show friend has been added
+                            //Remove friend from list
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
             }
         });
         return convertView;

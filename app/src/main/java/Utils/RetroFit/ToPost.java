@@ -1,5 +1,6 @@
 package Utils.RetroFit;
 
+import friends.friendRequest.FriendRequestRequest;
 import login.LoginRequest;
 import login.LoginResponse;
 import retrofit2.Call;
@@ -21,6 +22,10 @@ public interface ToPost {
     //Post sign up information and return boolean if it was successful
     @POST("/{post}")
     public Call<Boolean> postSignUp(@Path("post") String url, @Body SignUpRequest toSend);
+
+    //Post friend request response information and return boolean if it was successful
+    @POST("/{post")
+    public Call<Boolean> postFriendRequestResponse(@Path("post") String url, @Body FriendRequestRequest toSend);
 
 
 }
