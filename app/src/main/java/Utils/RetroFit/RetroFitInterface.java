@@ -1,4 +1,4 @@
-package RetroFitInterfaces;
+package Utils.RetroFit;
 
 import java.io.IOException;
 

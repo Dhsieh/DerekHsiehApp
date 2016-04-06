@@ -1,4 +1,4 @@
-package derekhsieh.derekhsiehapp;
+package friends.friendPage;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -22,6 +22,16 @@ import java.util.concurrent.ExecutionException;
 
 import AsyncTaskRunners.PostImageAsyncTaskRunner;
 import AsyncTaskRunners.GetImageAsyncTaskRunner;
+import Utils.RetroFit.RetroFitInterface;
+import Utils.Constants;
+import Utils.RetroFit.ToGet;
+import derekhsieh.derekhsiehapp.ImageRatingDialog;
+import derekhsieh.derekhsiehapp.NewTopicDialog;
+import derekhsieh.derekhsiehapp.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by phoenix on 12/23/15.
@@ -41,7 +51,7 @@ public class FriendPageActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        this.user = extras.getString("username");
+        this.user = extras.getString(Constants.username);
         this.friend = extras.getString("friend");
         String friendsImage = friend+"'s image";
 
@@ -50,6 +60,27 @@ public class FriendPageActivity extends ActionBarActivity {
         TextView friendNameTextView = (TextView) findViewById(R.id.friendNameTextView);
         friendNameTextView.setText(friendsImage);
 
+
+        Retrofit retrofit = RetroFitInterface.createRetroFit();
+        ToGet postMethod = retrofit.create(ToGet.class);
+        Call<FriendPageResponse> call = postMethod.getFriendPageResponse("GetFriendPage", user, friend);
+        call.enqueue(new Callback<FriendPageResponse>() {
+            @Override
+            public void onResponse(Call<FriendPageResponse> call, Response<FriendPageResponse> response) {
+                if(response.isSuccessful()){
+                    FriendPageResponse friendPageResponse = response.body();
+                    TextView avgScoreValue = (TextView) findViewById(R.id.avgScoreValue);
+                    avgScoreValue.setText(String.valueOf(friendPageResponse.getAvgHuntScore()));
+                    TextView huntPlayedValued = (TextView) findViewById(R.id.HuntsPlayedValue);
+                    huntPlayedValued.setText(String.valueOf(friendPageResponse.getHuntsPlayed()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FriendPageResponse> call, Throwable t) {
+
+            }
+        });
         cameraImageView = (ImageView) findViewById(R.id.imageView);
         getImage();
 

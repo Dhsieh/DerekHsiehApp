@@ -10,8 +10,8 @@ import android.widget.Button;
 
 import java.util.List;
 
-import friendRequest.FriendRequestActivity;
-import friends.FriendListActivity;
+import friends.friendRequest.FriendRequestActivity;
+import friends.friendList.FriendListActivity;
 
 
 public class MainPageActivity extends ActionBarActivity {

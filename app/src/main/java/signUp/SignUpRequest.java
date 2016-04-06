@@ -2,6 +2,8 @@ package signUp;
 
 /**
  * Created by derekhsieh on 4/4/16.
+ * Information needed to sign up for the app
+ * that will be transport using retrofit
  */
 public class SignUpRequest {
     private String username;

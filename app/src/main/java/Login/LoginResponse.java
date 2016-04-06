@@ -7,6 +7,9 @@ import java.util.List;
 
 /**
  * Created by derekhsieh on 4/3/16.
+ * Response from server that contains
+ * information that will be used in the
+ * Main Page activity
  */
 public class LoginResponse{
     private boolean success;

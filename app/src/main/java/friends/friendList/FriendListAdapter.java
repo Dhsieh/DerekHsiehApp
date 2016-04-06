@@ -1,4 +1,4 @@
-package friends;
+package friends.friendList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import derekhsieh.derekhsiehapp.FriendPageActivity;
+import friends.friendPage.FriendPageActivity;
 import derekhsieh.derekhsiehapp.R;
 
 /**
@@ -51,10 +51,10 @@ public class FriendListAdapter extends BaseAdapter {
         friend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent goToCameraActivity = new Intent(context, FriendPageActivity.class);
-                    goToCameraActivity.putExtra("friend", friends.get(position));
-                    goToCameraActivity.putExtra("username", user);
-                    context.startActivity(goToCameraActivity);
+                    Intent goToFriendPage = new Intent(context, FriendPageActivity.class);
+                    goToFriendPage.putExtra("friend", friends.get(position));
+                    goToFriendPage.putExtra("username", user);
+                    context.startActivity(goToFriendPage);
                 }
             }
         );

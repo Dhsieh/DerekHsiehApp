@@ -26,15 +26,15 @@
             android:label="@string/title_activity_main_page" >
         </activity>
         <activity
-            android:name="friendRequest.FriendRequestActivity"
+            android:name="friends.friendRequest.FriendRequestActivity"
             android:label="@string/title_activity_friend_request" >
         </activity>
         <activity
-            android:name="friends.FriendListActivity"
+            android:name="friends.friendList.FriendListActivity"
             android:label="@string/title_activity_friend_list" >
         </activity>
         <activity
-            android:name=".FriendPageActivity"
+            android:name="friends.friendPage.FriendPageActivity"
             android:label="@string/title_activity_camera_activity" >
         </activity>
     </application>

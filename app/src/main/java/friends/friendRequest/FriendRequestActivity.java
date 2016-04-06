@@ -1,4 +1,4 @@
-package friendRequest;
+package friends.friendRequest;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Utils.RetroFit.ToGet;
 import derekhsieh.derekhsiehapp.R;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -44,8 +45,8 @@ public class FriendRequestActivity extends ListActivity {
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.0.103:4567")
                 .addConverterFactory(GsonConverterFactory.create()).client(okClient).build();
 
-        GetMethod toGet = retrofit.create(GetMethod.class);
-        Call<List<String>> call = toGet.getResponse("GetFriendRequests", username);
+        ToGet toGet = retrofit.create(ToGet.class);
+        Call<List<String>> call = toGet.getListForUser("GetFriendRequests", username);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, retrofit2.Response<List<String>> response) {

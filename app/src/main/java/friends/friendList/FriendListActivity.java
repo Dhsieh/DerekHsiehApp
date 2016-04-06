@@ -1,4 +1,4 @@
-package friends;
+package friends.friendList;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Utils.RetroFit.RetroFitInterface;
+import Utils.RetroFit.ToGet;
 import derekhsieh.derekhsiehapp.R;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -39,17 +41,9 @@ public class FriendListActivity extends ListActivity {
         }
 
 
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                return chain.proceed(chain.request());
-            }
-        }).build();
-
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.0.103:4567")
-                .addConverterFactory(GsonConverterFactory.create()).client(client).build();
-        GetMethod toGet = retrofit.create(GetMethod.class);
-        Call<List<String>> call = toGet.postResponse("GetFriends",user);
+        Retrofit retrofit = RetroFitInterface.createRetroFit();
+        ToGet toGet = retrofit.create(ToGet.class);
+        Call<List<String>> call = toGet.getListForUser("GetFriends",user);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, retrofit2.Response<List<String>> response) {
@@ -74,7 +68,6 @@ public class FriendListActivity extends ListActivity {
 
             }
         });
-
 
     }
 

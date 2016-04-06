@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
-import AsyncTaskRunners.LoginSignUpAsyncTaskRunner;
-import RetroFitInterfaces.RetroFitInterface;
+import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
+import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.MainPageActivity;
 import derekhsieh.derekhsiehapp.R;
 import retrofit2.Call;
@@ -57,19 +57,18 @@ public class SignUpAcitivty extends ActionBarActivity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-            LoginSignUpAsyncTaskRunner runner = new LoginSignUpAsyncTaskRunner(getApplicationContext());
             Retrofit retrofit = RetroFitInterface.createRetroFit();
-            PostMethod toPost = retrofit.create(PostMethod.class);
-            Call<Boolean> call = toPost.getResponse("AddUser", new SignUpRequest(user, password, email, first_name, last_name));
+            ToPost toPost = retrofit.create(ToPost.class);
+            Call<Boolean> call = toPost.postSignUp("AddUser", new SignUpRequest(user, password, email, first_name, last_name));
             call.enqueue(new Callback<Boolean>() {
                 @Override
                 public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                     if (response.isSuccessful()) {
                         if (response.body()) {
                             Toast.makeText(getApplicationContext(), "User has been added", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignUpAcitivty.this, MainPageActivity.class);
-                            intent.putExtra(Constants.friendRequests, 0);
-                            intent.putExtra(Constants.username, user);
+                            Intent goToMainPage = new Intent(SignUpAcitivty.this, MainPageActivity.class);
+                            goToMainPage.putExtra(Constants.friendRequests, 0);
+                            goToMainPage.putExtra(Constants.username, user);
                         } else
                             Toast.makeText(getApplicationContext(), "User has not been added", Toast.LENGTH_SHORT);
                     } else {
@@ -82,8 +81,6 @@ public class SignUpAcitivty extends ActionBarActivity {
 
                 }
             });
-            asyncTask = runner.execute(user, password, email, first_name, last_name, "signup");
-            String answer = asyncTask.get();
         }
     }
 

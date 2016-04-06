@@ -17,8 +17,9 @@ import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
 
-import RetroFitInterfaces.RetroFitInterface;
+import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
+import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.MainPageActivity;
 import derekhsieh.derekhsiehapp.R;
 import retrofit2.Call;
@@ -53,24 +54,24 @@ public class LoginActivity extends Activity {
         } else {
 
             Retrofit retrofit = RetroFitInterface.createRetroFit();
-            PostMethod toPost = retrofit.create(PostMethod.class);
-            Call<LoginResponse> response = toPost.postResponse("Login", new Login(username, password));
+            ToPost toPost = retrofit.create(ToPost.class);
+            Call<LoginResponse> response = toPost.postLogin("LoginRequest", new LoginRequest(username, password));
             response.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         loginResponse = response.body();
                         if (loginResponse.isSuccess()) {
-                            Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
-                            intent.putExtra(Constants.friendRequests, loginResponse.getFriendRequests());
-                            intent.putExtra(Constants.username, username);
-                            startActivity(intent);
+                            Intent goToMainPage = new Intent(LoginActivity.this, MainPageActivity.class);
+                            goToMainPage.putExtra(Constants.friendRequests, loginResponse.getFriendRequests());
+                            goToMainPage.putExtra(Constants.username, username);
+                            startActivity(goToMainPage);
                         } else {
                             Toast.makeText(getApplicationContext(), "Wrong user or password", Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
-                        Log.e("Login Failed", "Could not login for user " + username);
+                        Log.e("LoginRequest Failed", "Could not login for user " + username);
                         loginResponse = new LoginResponse();
                     }
                 }

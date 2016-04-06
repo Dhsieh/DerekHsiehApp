@@ -1,4 +1,4 @@
-package friendRequest;
+package friends.friendRequest;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import AsyncTaskRunners.FriendRequestAsyncTaskRunner;
 import derekhsieh.derekhsiehapp.R;
