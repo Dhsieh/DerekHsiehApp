@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import java.util.List;
 
+import Utils.Constants;
 import friends.friendRequest.FriendRequestActivity;
 import friends.friendList.FriendListActivity;
 
@@ -17,16 +18,16 @@ import friends.friendList.FriendListActivity;
 public class MainPageActivity extends ActionBarActivity {
 
     private String user;
+    private int numFriendRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         Bundle extras = getIntent().getExtras();
-        user = extras.getString("username");
-        List<String> response = extras.getStringArrayList("serverResponse");
-        int noFriendRequests = extras.getInt("friendRequests");
-        ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(noFriendRequests));
+        user = extras.getString(Constants.username);
+        numFriendRequests = extras.getInt(Constants.friendRequests);
+        ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(numFriendRequests));
 
     }
 
@@ -46,6 +47,7 @@ public class MainPageActivity extends ActionBarActivity {
     public void goToFriendList(View view) {
         Intent goToFriendListActivity = new Intent(this, FriendListActivity.class);
         goToFriendListActivity.putExtra("username", user);
+        goToFriendListActivity.putExtra(Constants.friendRequests, numFriendRequests);
         startActivity(goToFriendListActivity);
     }
 

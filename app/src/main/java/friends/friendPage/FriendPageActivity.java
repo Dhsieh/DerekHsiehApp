@@ -25,9 +25,11 @@ import AsyncTaskRunners.GetImageAsyncTaskRunner;
 import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
 import Utils.RetroFit.ToGet;
+import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.ImageRatingDialog;
 import derekhsieh.derekhsiehapp.NewTopicDialog;
 import derekhsieh.derekhsiehapp.R;
+import friends.friendList.FriendListActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,21 +55,19 @@ public class FriendPageActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         this.user = extras.getString(Constants.username);
         this.friend = extras.getString("friend");
-        String friendsImage = friend+"'s image";
+        String friendsImage = friend + "'s image";
 
         setContentView(R.layout.activity_friend_page);
 
         TextView friendNameTextView = (TextView) findViewById(R.id.friendNameTextView);
         friendNameTextView.setText(friendsImage);
 
-
-        Retrofit retrofit = RetroFitInterface.createRetroFit();
-        ToGet postMethod = retrofit.create(ToGet.class);
+        ToGet postMethod = RetroFitInterface.createToGet();
         Call<FriendPageResponse> call = postMethod.getFriendPageResponse("GetFriendPage", user, friend);
         call.enqueue(new Callback<FriendPageResponse>() {
             @Override
             public void onResponse(Call<FriendPageResponse> call, Response<FriendPageResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     FriendPageResponse friendPageResponse = response.body();
                     TextView avgScoreValue = (TextView) findViewById(R.id.avgScoreValue);
                     avgScoreValue.setText(String.valueOf(friendPageResponse.getAvgHuntScore()));
@@ -106,17 +106,22 @@ public class FriendPageActivity extends ActionBarActivity {
                 topicDialog.setDialogResult(new NewTopicDialog.OnNewTopicDialogResult() {
                     @Override
                     public void finish(String result) {
-                        // TODO: Implement on server side before uncommenting
-//                        PostTopicAsyncTaskRunner runner = new PostTopicAsyncTaskRunner(getApplicationContext());
-//                        AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(FriendPageActivity.this.user, FriendPageActivity.this.friend, result);
-//                        try {
-//                            setAsyncTask.get();
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        } catch (ExecutionException e) {
-//                            e.printStackTrace();
-//                        }
-                        Toast.makeText(getApplicationContext(), "SENT NEW TOPIC. YISSSS!!! " + result, Toast.LENGTH_SHORT).show();
+                        ToPost toPost = RetroFitInterface.createToPost();
+                        Call<Boolean> call = toPost.postTopic("AddTopic", new TopicRequest(user, friend, result, System.currentTimeMillis()));
+                        call.enqueue(new Callback<Boolean>() {
+                            @Override
+                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "SENT NEW TOPIC. YISSSS!!! ", Toast.LENGTH_SHORT).show();
+                                } else
+                                    Toast.makeText(getApplicationContext(), "Could not send topic ", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Boolean> call, Throwable t) {
+
+                            }
+                        });
                     }
                 });
             }
@@ -130,20 +135,27 @@ public class FriendPageActivity extends ActionBarActivity {
                 // Opens a dialog where the user can select a rating
                 ImageRatingDialog ratingDialog = new ImageRatingDialog(context);
                 ratingDialog.show();
-                ratingDialog.setDialogResult(new ImageRatingDialog.OnImageRatingDialogResult(){
+                ratingDialog.setDialogResult(new ImageRatingDialog.OnImageRatingDialogResult() {
                     @Override
                     public void finish(Float result) {
                         // TODO: Implement on server side before uncommenting
-//                        PostRatingAsyncTaskRunner runner = new PostRatingAsyncTaskRunner(getApplicationContext());
-//                        AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(FriendPageActivity.this.user, FriendPageActivity.this.friend, String.valueOf(result));
-//                        try {
-//                            setAsyncTask.get();
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        } catch (ExecutionException e) {
-//                            e.printStackTrace();
-//                        }
-                        Toast.makeText(getApplicationContext(), "SENT RATING. AWWWWWW YEAAA!!! " + String.valueOf(result), Toast.LENGTH_SHORT).show();
+                        ToPost toPost = RetroFitInterface.createToPost();
+                        Call<Boolean> call = toPost.postRating("AddRating", new RatingRequest(user, friend, result, System.currentTimeMillis()));
+                        call.enqueue(new Callback<Boolean>() {
+                            @Override
+                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "SENT RATING. AWWWWWW YEAAA!!! ", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Could not send rating ", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Boolean> call, Throwable t) {
+
+                            }
+                        });
                     }
                 });
             }
@@ -155,7 +167,6 @@ public class FriendPageActivity extends ActionBarActivity {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             byte[] byteArray = outputStream.toByteArray();
-            // TODO: Use Serializer to send images
             String bitmapString = Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
             PostImageAsyncTaskRunner runner = new PostImageAsyncTaskRunner(getApplicationContext());
             AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(this.user, this.friend, bitmapString);
@@ -174,8 +185,7 @@ public class FriendPageActivity extends ActionBarActivity {
         AsyncTask<String, String, String> getAsyncTask = runner.execute(this.friend, this.user);
         try {
             String response = getAsyncTask.get();
-            if (response != null)
-            {
+            if (response != null) {
                 if (response.equals("No image")) {
                     Toast.makeText(getApplicationContext(), "No image in database", Toast.LENGTH_SHORT).show();
                 } else {
@@ -243,11 +253,20 @@ public class FriendPageActivity extends ActionBarActivity {
         cameraImageView.setImageBitmap(imageBitmap);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent backToFriendsList = new Intent(this, FriendListActivity.class);
+        backToFriendsList.putExtra(Constants.username, user);
+        context.startActivity(backToFriendsList);
+    }
+
+
     public static void longInfo(String str) {
-        if(str.length() > 4000) {
+        if (str.length() > 4000) {
             System.out.println(str.substring(0, 4000));
             longInfo(str.substring(4000));
         } else
             System.out.println(str);
     }
+
 }

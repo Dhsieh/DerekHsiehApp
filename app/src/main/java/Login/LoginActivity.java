@@ -52,9 +52,7 @@ public class LoginActivity extends Activity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-
-            Retrofit retrofit = RetroFitInterface.createRetroFit();
-            ToPost toPost = retrofit.create(ToPost.class);
+            ToPost toPost = RetroFitInterface.createToPost();
             Call<LoginResponse> response = toPost.postLogin("LoginRequest", new LoginRequest(username, password));
             response.enqueue(new Callback<LoginResponse>() {
                 @Override

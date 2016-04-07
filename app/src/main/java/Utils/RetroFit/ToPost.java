@@ -1,5 +1,7 @@
 package Utils.RetroFit;
 
+import friends.friendPage.RatingRequest;
+import friends.friendPage.TopicRequest;
 import friends.friendRequest.FriendRequestRequest;
 import login.LoginRequest;
 import login.LoginResponse;
@@ -26,6 +28,12 @@ public interface ToPost {
     //Post friend request response information and return boolean if it was successful
     @POST("/{post")
     public Call<Boolean> postFriendRequestResponse(@Path("post") String url, @Body FriendRequestRequest toSend);
+
+    @POST("/{post}")
+    public Call<Boolean> postTopic(@Path("post") String url, @Body TopicRequest toSend);
+
+    @POST("/{post}")
+    public Call<Boolean> postRating(@Path("post") String url, @Body RatingRequest toSend);
 
 
 }

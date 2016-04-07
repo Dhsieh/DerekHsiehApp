@@ -1,6 +1,7 @@
 package friends.friendList;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Utils.Constants;
 import Utils.RetroFit.RetroFitInterface;
 import Utils.RetroFit.ToGet;
+import derekhsieh.derekhsiehapp.MainPageActivity;
 import derekhsieh.derekhsiehapp.R;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -28,6 +31,8 @@ public class FriendListActivity extends ListActivity {
     private String user;
     private FriendListAdapter adapter;
 
+    //Just to store number of FriendRequests when going back to main page
+    private int numFriendRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +40,13 @@ public class FriendListActivity extends ListActivity {
         Bundle extras = getIntent().getExtras();
         if (savedInstanceState != null) {
             this.friendList = savedInstanceState.getStringArrayList("friend_list");
-            this.user = savedInstanceState.getString("username");
+            this.user = savedInstanceState.getString(Constants.username);
         } else {
-            this.user = extras.getString("username");
+            this.user = extras.getString(Constants.username);
         }
 
-
-        Retrofit retrofit = RetroFitInterface.createRetroFit();
-        ToGet toGet = retrofit.create(ToGet.class);
-        Call<List<String>> call = toGet.getListForUser("GetFriends",user);
+        ToGet toGet = RetroFitInterface.createToGet();
+        Call<List<String>> call = toGet.getListForUser("GetFriends", user);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, retrofit2.Response<List<String>> response) {
@@ -97,5 +100,12 @@ public class FriendListActivity extends ListActivity {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putStringArrayList("friend_list", (ArrayList<String>) this.friendList);
         savedInstanceState.putString("username", this.user);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent goBackToMainPage = new Intent(this, MainPageActivity.class);
+        goBackToMainPage.putExtra(Constants.username, user);
+        goBackToMainPage.putExtra(Constants.friendRequests, numFriendRequest);
     }
 }

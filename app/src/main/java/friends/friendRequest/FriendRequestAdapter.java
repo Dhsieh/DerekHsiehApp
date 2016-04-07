@@ -26,13 +26,16 @@ public class FriendRequestAdapter extends BaseAdapter {
     private List<String> friendRequests;
     private final Context context;
     private final String username;
+    private int friendRequestCount;
     private final FriendRequestAsyncTaskRunner taskRunner;
 
     public FriendRequestAdapter(Context context, List<String> requests, String username) {
         this.friendRequests = requests;
+        this.friendRequestCount = friendRequests.size();
         this.context = context;
         this.username = username;
         taskRunner = new FriendRequestAsyncTaskRunner(context);
+
     }
 
     @Override
@@ -69,6 +72,7 @@ public class FriendRequestAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                         if (response.isSuccessful()) {
+                            friendRequestCount--;
                             //Remove friend request from activity
                         }
                     }
@@ -94,6 +98,7 @@ public class FriendRequestAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                         if(response.isSuccessful()){
+                            friendRequestCount--;
                             //Show friend has been added
                             //Remove friend from list
                         }

@@ -1,6 +1,7 @@
 package friends.friendRequest;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import Utils.RetroFit.RetroFitInterface;
 import Utils.RetroFit.ToGet;
+import derekhsieh.derekhsiehapp.MainPageActivity;
 import derekhsieh.derekhsiehapp.R;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -28,6 +30,7 @@ public class FriendRequestActivity extends ListActivity {
     private String username;
     private List<String> friendRequests;
     private FriendRequestAdapter adapter;
+    private int friendRequestCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +38,7 @@ public class FriendRequestActivity extends ListActivity {
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
 
-
-        Retrofit retrofit = RetroFitInterface.createRetroFit();
-        ToGet toGet = retrofit.create(ToGet.class);
+        ToGet toGet = RetroFitInterface.createToGet();
         Call<List<String>> call = toGet.getListForUser("GetFriendRequests", username);
         call.enqueue(new Callback<List<String>>() {
             @Override
@@ -45,6 +46,7 @@ public class FriendRequestActivity extends ListActivity {
                 if (response.isSuccessful()) {
                     setContentView(R.layout.activity_friend_request);
                     friendRequests = response.body();
+                    friendRequestCount = friendRequests.size();
                     if (friendRequests != null)
                         adapter = new FriendRequestAdapter(FriendRequestActivity.this, friendRequests, username);
                      else
@@ -55,7 +57,6 @@ public class FriendRequestActivity extends ListActivity {
                 } else {
                 }
 
-
             }
 
             @Override
@@ -63,6 +64,7 @@ public class FriendRequestActivity extends ListActivity {
 
             }
         });
+
     }
 
 
@@ -86,6 +88,12 @@ public class FriendRequestActivity extends ListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent goToMainPage = new Intent(this, MainPageActivity.class);
+
     }
 
 

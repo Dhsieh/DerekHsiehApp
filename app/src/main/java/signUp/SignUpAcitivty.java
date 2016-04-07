@@ -57,8 +57,7 @@ public class SignUpAcitivty extends ActionBarActivity {
             noUserOrPass.setGravity(Gravity.CENTER_VERTICAL, 0, 100);
             noUserOrPass.show();
         } else {
-            Retrofit retrofit = RetroFitInterface.createRetroFit();
-            ToPost toPost = retrofit.create(ToPost.class);
+            ToPost toPost = RetroFitInterface.createToPost();
             Call<Boolean> call = toPost.postSignUp("AddUser", new SignUpRequest(user, password, email, first_name, last_name));
             call.enqueue(new Callback<Boolean>() {
                 @Override
