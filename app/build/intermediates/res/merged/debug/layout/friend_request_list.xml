@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/RequesteeName"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/reject"
+        android:textSize="30dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/accept"
+        android:onClick="accept "
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/reject"
+        android:background="@android:color/holo_green_light"
+        android:text="O"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reject"
+        android:onClick="reject"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/holo_red_light"
+        android:text="X"
+        />
+    <TextView
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/reject"
+        android:layout_centerHorizontal="true"
+        />
+
+</RelativeLayout><!-- From: file:/Users/josephchen/Documents/Code/DhsiehApp/ScavengerHuntApp/app/src/main/res/layout/friend_request_list.xml -->
