@@ -9,4 +9,6 @@ public class Constants {
     public static String username = "username";
     public static String friendRequests = "friendRequests";
 
+    public static String errorMessage = "Error with connection, try again";
+
 }

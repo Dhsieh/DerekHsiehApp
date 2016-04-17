@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,15 +15,10 @@ import java.util.List;
 import Utils.Constants;
 import Utils.RetroFit.RetroFitInterface;
 import Utils.RetroFit.ToGet;
-import derekhsieh.derekhsiehapp.MainPageActivity;
+import mainPage.MainPageActivity;
 import derekhsieh.derekhsiehapp.R;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class FriendListActivity extends ListActivity {
@@ -102,8 +97,7 @@ public class FriendListActivity extends ListActivity {
         savedInstanceState.putString("username", this.user);
     }
 
-    @Override
-    public void onBackPressed(){
+    public void onBackPressed(View v){
         Intent goBackToMainPage = new Intent(this, MainPageActivity.class);
         goBackToMainPage.putExtra(Constants.username, user);
         goBackToMainPage.putExtra(Constants.friendRequests, numFriendRequest);

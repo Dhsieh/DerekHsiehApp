@@ -26,7 +26,7 @@ public interface ToPost {
     public Call<Boolean> postSignUp(@Path("post") String url, @Body SignUpRequest toSend);
 
     //Post friend request response information and return boolean if it was successful
-    @POST("/{post")
+    @POST("/{post}")
     public Call<Boolean> postFriendRequestResponse(@Path("post") String url, @Body FriendRequestRequest toSend);
 
     @POST("/{post}")
