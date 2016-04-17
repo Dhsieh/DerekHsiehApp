@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -26,14 +27,11 @@ import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
 import Utils.RetroFit.ToGet;
 import Utils.RetroFit.ToPost;
-import derekhsieh.derekhsiehapp.ImageRatingDialog;
-import derekhsieh.derekhsiehapp.NewTopicDialog;
 import derekhsieh.derekhsiehapp.R;
 import friends.friendList.FriendListActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by phoenix on 12/23/15.
@@ -73,12 +71,14 @@ public class FriendPageActivity extends ActionBarActivity {
                     avgScoreValue.setText(String.valueOf(friendPageResponse.getAvgHuntScore()));
                     TextView huntPlayedValued = (TextView) findViewById(R.id.HuntsPlayedValue);
                     huntPlayedValued.setText(String.valueOf(friendPageResponse.getHuntsPlayed()));
+                }else{
+                    Log.e("Error", "Could not login in properly");
                 }
             }
 
             @Override
             public void onFailure(Call<FriendPageResponse> call, Throwable t) {
-
+                Log.e("Error", "FAILURE");
             }
         });
         cameraImageView = (ImageView) findViewById(R.id.imageView);
@@ -253,8 +253,7 @@ public class FriendPageActivity extends ActionBarActivity {
         cameraImageView.setImageBitmap(imageBitmap);
     }
 
-    @Override
-    public void onBackPressed() {
+    public void onBackPressed(View v) {
         Intent backToFriendsList = new Intent(this, FriendListActivity.class);
         backToFriendsList.putExtra(Constants.username, user);
         context.startActivity(backToFriendsList);

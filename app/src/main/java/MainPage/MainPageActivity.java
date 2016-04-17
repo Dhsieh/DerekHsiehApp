@@ -1,4 +1,4 @@
-package derekhsieh.derekhsiehapp;
+package MainPage;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import java.util.List;
 
 import Utils.Constants;
+import derekhsieh.derekhsiehapp.R;
 import friends.friendRequest.FriendRequestActivity;
 import friends.friendList.FriendListActivity;
 
