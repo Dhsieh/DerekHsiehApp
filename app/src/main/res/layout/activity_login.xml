@@ -10,18 +10,19 @@
 
 
     <TextView
-        android:id="@+id/Text"
+        android:id="@+id/login_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Login"
-        android:textSize="@dimen/abc_text_size_large_material"></TextView>
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:fontFamily="Aliquam"></TextView>
 
     <View
         android:id="@+id/Space1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Text"
+        android:layout_below="@+id/login_Title"
         android:layout_centerHorizontal="true"></View>
 
     <TextView
