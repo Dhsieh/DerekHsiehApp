@@ -41,9 +41,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         gson = new Gson();
-        TextView txt = (TextView) findViewById(R.id.login_Title);
-        Typeface font = Typeface.createFromAsset(getAssets(), "Aliquam.ttf");
-        txt.setTypeface(font);
     }
 
 

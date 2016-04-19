@@ -20,8 +20,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="400px"
-                android:layout_height="400px"
+                android:layout_width="500px"
+                android:layout_height="500px"
                 android:layout_gravity="center"
                 android:paddingBottom="15dp"
                 android:src="@drawable/map"/> ?>
