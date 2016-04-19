@@ -66,7 +66,7 @@
         android:id="@+id/Space1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Text"
+        android:layout_below="@+id/login_Title"
         android:layout_centerHorizontal="true"></View>
 
     <TextView

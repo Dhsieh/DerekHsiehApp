@@ -1,7 +1,9 @@
 package derekhsieh.derekhsiehapp;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.TextView;
 
 public class StartNewHunt extends ActionBarActivity {
 
