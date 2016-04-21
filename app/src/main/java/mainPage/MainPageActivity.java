@@ -6,11 +6,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.support.v7.app.ActionBar;
 
 import Utils.Constants;
 import derekhsieh.derekhsiehapp.R;
@@ -22,6 +20,7 @@ public class MainPageActivity extends ActionBarActivity{
 
     private String user;
     private int numFriendRequests;
+    private Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class MainPageActivity extends ActionBarActivity{
 
         StartNewHuntDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(myToolbar);
         
     }
@@ -43,8 +42,7 @@ public class MainPageActivity extends ActionBarActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main_page., menu)
+        getMenuInflater().inflate(R.menu.main_navibar, menu);
         return true;
     }
 
