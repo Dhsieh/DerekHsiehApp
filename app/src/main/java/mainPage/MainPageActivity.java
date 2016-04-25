@@ -30,20 +30,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-<<<<<<< HEAD
 public class MainPageActivity extends ListActivity {
-=======
-public class MainPageActivity extends ActionBarActivity{
->>>>>>> 4faf1245a7e86492deece6d056eecd309fcabe0a
 
     private String username;
     private int numFriendRequests;
-<<<<<<< HEAD
     private Context context = this;
     private CurrentHuntAdapter adapter;
-=======
     private Toolbar myToolbar;
->>>>>>> 4faf1245a7e86492deece6d056eecd309fcabe0a
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +68,6 @@ public class MainPageActivity extends ActionBarActivity{
 
 
         ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(numFriendRequests));
-
-<<<<<<< HEAD
         //Start new hunt by sending a topic
         ((Button) findViewById(R.id.StartNewHunt)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,13 +126,8 @@ public class MainPageActivity extends ActionBarActivity{
                 });
             }
         });
-=======
-        StartNewHuntDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
         myToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(myToolbar);
-        
->>>>>>> 4faf1245a7e86492deece6d056eecd309fcabe0a
     }
 
     @Override
