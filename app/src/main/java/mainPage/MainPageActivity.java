@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,12 +30,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+<<<<<<< HEAD
 public class MainPageActivity extends ListActivity {
+=======
+public class MainPageActivity extends ActionBarActivity{
+>>>>>>> 4faf1245a7e86492deece6d056eecd309fcabe0a
 
     private String username;
     private int numFriendRequests;
+<<<<<<< HEAD
     private Context context = this;
     private CurrentHuntAdapter adapter;
+=======
+    private Toolbar myToolbar;
+>>>>>>> 4faf1245a7e86492deece6d056eecd309fcabe0a
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,7 @@ public class MainPageActivity extends ListActivity {
 
         ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(numFriendRequests));
 
+<<<<<<< HEAD
         //Start new hunt by sending a topic
         ((Button) findViewById(R.id.StartNewHunt)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,12 +135,20 @@ public class MainPageActivity extends ListActivity {
                 });
             }
         });
+=======
+        StartNewHuntDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+        myToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(myToolbar);
+        
+>>>>>>> 4faf1245a7e86492deece6d056eecd309fcabe0a
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_page, menu);
+
+        getMenuInflater().inflate(R.menu.main_navibar, menu);
         return true;
     }
 

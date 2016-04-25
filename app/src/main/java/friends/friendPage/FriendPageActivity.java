@@ -21,8 +21,6 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
-import AsyncTaskRunners.PostImageAsyncTaskRunner;
-import AsyncTaskRunners.GetImageAsyncTaskRunner;
 import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
 import Utils.RetroFit.ToGet;
@@ -170,37 +168,11 @@ public class FriendPageActivity extends ActionBarActivity {
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             byte[] byteArray = outputStream.toByteArray();
             String bitmapString = Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
-            PostImageAsyncTaskRunner runner = new PostImageAsyncTaskRunner(getApplicationContext());
-            AsyncTask<String, String, Boolean> setAsyncTask = runner.execute(this.user, this.friend, bitmapString);
-            try {
-                Boolean requests = setAsyncTask.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
         }
     }
 
     private void getImage() {
-        GetImageAsyncTaskRunner runner = new GetImageAsyncTaskRunner(getApplicationContext());
-        AsyncTask<String, String, String> getAsyncTask = runner.execute(this.friend, this.user);
-        try {
-            String response = getAsyncTask.get();
-            if (response != null) {
-                if (response.equals("No image")) {
-                    Toast.makeText(getApplicationContext(), "No image in database", Toast.LENGTH_SHORT).show();
-                } else {
-                    byte[] encodeByte = Base64.decode(response, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
-                    imageBitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                    cameraImageView.setImageBitmap(imageBitmap);
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
