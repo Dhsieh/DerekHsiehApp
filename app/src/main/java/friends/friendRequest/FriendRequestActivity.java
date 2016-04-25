@@ -1,12 +1,14 @@
 package friends.friendRequest;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -76,7 +78,11 @@ public class FriendRequestActivity extends ListActivity {
 
     }
 
-
+    public void onBackPressed(View view){
+        Intent goToMainPage = new Intent(this, MainPageActivity.class);
+        goToMainPage.putExtra(Constants.username, username);
+        startActivity(goToMainPage);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

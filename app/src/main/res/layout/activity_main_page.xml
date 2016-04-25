@@ -24,6 +24,16 @@
         android:onClick="goToFriendList"
         android:layout_alignParentRight="true"
         />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/android:list"
+        android:layout_above="@+id/StartNewHunt"
+        android:layout_below="@+id/NumFriendRequests"
+        >
+    </ListView>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

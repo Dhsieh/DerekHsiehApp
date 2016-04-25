@@ -37,7 +37,6 @@ import retrofit2.Response;
  * Created by phoenix on 12/23/15.
  * Activity where the user can take a new picture, send a new topic, or rate and image
  */
-// TODO: I could not come up with a better name for the activity for the life of me, so I'm open to any suggestions.
 public class FriendPageActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -46,6 +45,7 @@ public class FriendPageActivity extends ActionBarActivity {
     private ImageView cameraImageView;
     private String user;
     private String friend;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public class FriendPageActivity extends ActionBarActivity {
         this.user = extras.getString(Constants.username);
         this.friend = extras.getString("friend");
         String friendsImage = friend + "'s image";
+        if(extras.containsKey("status"))
+            this.status = extras.getString("status");
 
         setContentView(R.layout.activity_friend_page);
 
@@ -82,7 +84,7 @@ public class FriendPageActivity extends ActionBarActivity {
             }
         });
         cameraImageView = (ImageView) findViewById(R.id.imageView);
-        getImage();
+       // getImage();
 
         Button takeImageButton = (Button) findViewById(R.id.takeImageButton);
         takeImageButton.setOnClickListener(new View.OnClickListener() {
