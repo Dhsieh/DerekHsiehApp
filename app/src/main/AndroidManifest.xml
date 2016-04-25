@@ -40,9 +40,7 @@
         <activity
             android:name="friends.friendPage.FriendPageActivity"
             android:label="@string/title_activity_camera_activity"></activity>
-        <activity
-            android:name=".LoginActivity3"
-            android:label="@string/title_activity_login3"></activity>
+
     </application>
 
 </manifest>
