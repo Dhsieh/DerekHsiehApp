@@ -13,7 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by derekhsieh on 4/3/16.
  */
 public class RetroFitInterface {
-    private static String baseUrl = "http://192.168.0.118:4567";
+    //Joey's Home Address
+    //private static String baseUrl = "http://192.168.1.14:4567";
+
+    //B&B Wifi
+    private static String baseUrl = "http://192.168.1.225:4567";
 
     public static Retrofit createRetroFit(){
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
