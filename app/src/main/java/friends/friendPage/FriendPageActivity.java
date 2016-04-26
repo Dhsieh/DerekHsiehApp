@@ -1,17 +1,15 @@
 package friends.friendPage;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,10 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.util.concurrent.ExecutionException;
 
-import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
+import Utils.RetroFit.RetroFitInterface;
 import Utils.RetroFit.ToGet;
 import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.R;
@@ -131,7 +128,6 @@ public class FriendPageActivity extends ActionBarActivity {
         rateImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Opens a dialog where the user can select a rating
                 ImageRatingDialog ratingDialog = new ImageRatingDialog(context);
                 ratingDialog.show();
