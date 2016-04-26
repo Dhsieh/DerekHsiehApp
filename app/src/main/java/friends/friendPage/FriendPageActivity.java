@@ -48,7 +48,7 @@ public class FriendPageActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         this.user = extras.getString(Constants.username);
         this.friend = extras.getString("friend");
-        String friendsImage = friend + "'s image";
+        final String friendsImage = friend + "'s image";
         if(extras.containsKey("status"))
             this.status = extras.getString("status");
 
@@ -104,7 +104,8 @@ public class FriendPageActivity extends ActionBarActivity {
                     @Override
                     public void finish(String result) {
                         ToPost toPost = RetroFitInterface.createToPost();
-                        Call<Boolean> call = toPost.postTopic("AddTopic", new TopicRequest(user, friend, result, System.currentTimeMillis()));
+                        TopicRequest request = new TopicRequest(user, friendsImage, result, System.currentTimeMillis());
+                        Call<Boolean> call = toPost.postTopic("AddTopic", request);
                         call.enqueue(new Callback<Boolean>() {
                             @Override
                             public void onResponse(Call<Boolean> call, Response<Boolean> response) {

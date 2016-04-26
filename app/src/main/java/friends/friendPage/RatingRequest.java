@@ -6,14 +6,14 @@ package friends.friendPage;
 public class RatingRequest {
     private String username;
     private String friend;
-    private Float topic;
-    private long updateTime;
+    private Float rating;
+    private long updated;
 
-    public RatingRequest(String username, String friend, Float topic, long updateTime) {
+    public RatingRequest(String username, String friend, Float rating, long updated) {
         this.username = username;
         this.friend = friend;
-        this.topic = topic;
-        this.updateTime = updateTime;
+        this.rating = rating;
+        this.updated = updated;
     }
 
     public String getUsername() {
@@ -32,19 +32,19 @@ public class RatingRequest {
         this.friend = friend;
     }
 
-    public Float getTopic() {
-        return topic;
+    public Float getRating() {
+        return rating;
     }
 
-    public void setTopic(Float topic) {
-        this.topic = topic;
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
-    public long getUpdateTime() {
-        return updateTime;
+    public long getUpdated() {
+        return updated;
     }
 
-    public void setUpdateTime(long updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdated(long updated) {
+        this.updated = updated;
     }
 }

@@ -32,6 +32,7 @@ public class ImageRatingDialog extends Dialog {
         setTitle("Rate Image");
 
         final RatingBar imageRatingBar = (RatingBar) findViewById(R.id.imageRatingBar);
+        imageRatingBar.setStepSize(0.5f);
         Button rateImageDialogCancelButton = (Button) findViewById(R.id.rateImageDialogCancelButton);
 
         // if cancel button is clicked, just close dialog
