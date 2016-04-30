@@ -17,7 +17,9 @@ public class RetroFitInterface {
     //private static String baseUrl = "http://192.168.1.14:4567";
 
     //B&B Wifi
-    private static String baseUrl = "http://192.168.1.225:4567";
+    //private static String baseUrl = "http://192.168.1.225:4567";
+    //
+     private static String baseUrl = "http://192.168.0.162:4567";
 
     public static Retrofit createRetroFit(){
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {

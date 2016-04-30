@@ -34,6 +34,7 @@ public class MainPageActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_page);
         Bundle extras = getIntent().getExtras();
         user = extras.getString(Constants.username);
@@ -45,13 +46,13 @@ public class MainPageActivity extends AppCompatActivity{
         myToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(myToolbar);
 
-
+        //Implements BottomBar App
         mBottomBar = BottomBar.attach(this, savedInstanceState);
         mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
                 if (menuItemId == R.id.StartNewHunt) {
-                    // The user selected item number one.
+
                 }
             }
 
@@ -117,5 +118,8 @@ public class MainPageActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goToFriendRequests(MenuItem item) {
     }
 }
