@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.ByteArrayOutputStream;
 
 import Utils.Constants;
@@ -24,6 +26,8 @@ import Utils.RetroFit.ToGet;
 import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.R;
 import friends.friendList.FriendListActivity;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +53,7 @@ public class FriendPageActivity extends ActionBarActivity {
         this.user = extras.getString(Constants.username);
         this.friend = extras.getString("friend");
         final String friendsImage = friend + "'s image";
-        if(extras.containsKey("status"))
+        if (extras.containsKey("status"))
             this.status = extras.getString("status");
 
         setContentView(R.layout.activity_friend_page);
@@ -68,7 +72,7 @@ public class FriendPageActivity extends ActionBarActivity {
                     avgScoreValue.setText(String.valueOf(friendPageResponse.getAvgHuntScore()));
                     TextView huntPlayedValued = (TextView) findViewById(R.id.HuntsPlayedValue);
                     huntPlayedValued.setText(String.valueOf(friendPageResponse.getHuntsPlayed()));
-                }else{
+                } else {
                     Log.e("Error", "Could not login in properly");
                 }
             }
@@ -79,7 +83,7 @@ public class FriendPageActivity extends ActionBarActivity {
             }
         });
         cameraImageView = (ImageView) findViewById(R.id.imageView);
-       // getImage();
+        // getImage();
 
         Button takeImageButton = (Button) findViewById(R.id.takeImageButton);
         takeImageButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +139,6 @@ public class FriendPageActivity extends ActionBarActivity {
                 ratingDialog.setDialogResult(new ImageRatingDialog.OnImageRatingDialogResult() {
                     @Override
                     public void finish(Float result) {
-                        // TODO: Implement on server side before uncommenting
                         ToPost toPost = RetroFitInterface.createToPost();
                         Call<Boolean> call = toPost.postRating("AddRating", new RatingRequest(user, friend, result, System.currentTimeMillis()));
                         call.enqueue(new Callback<Boolean>() {
@@ -159,13 +162,41 @@ public class FriendPageActivity extends ActionBarActivity {
         });
     }
 
-    private void saveImage() {
-        if (imageBitmap != null) {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            byte[] byteArray = outputStream.toByteArray();
-            String bitmapString = Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
-        }
+    //Sends image to server using retrofit
+    private void sendImage() {
+        String bitmapString = serializePhoto();
+        RequestBody photoRequest = RequestBody.create(MediaType.parse("multipart/form-data"), bitmapString);
+        RequestBody userRequest = RequestBody.create(MediaType.parse("multipart/form-data"), user);
+        RequestBody friendRequest = RequestBody.create(MediaType.parse("multipart/form-data"), friend);
+        RequestBody createTimeRequest = RequestBody.create(MediaType.parse("multipart/form-data"),
+                String.valueOf(System.currentTimeMillis()));
+
+        ToPost toPost = RetroFitInterface.createToPost();
+        Call<Boolean> call = toPost.postPhoto("PlacePhoto", userRequest, friendRequest, createTimeRequest, photoRequest);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "Successfully sent photo!", Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(context, Constants.errorMessage, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(context, Constants.errorMessage, Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private String serializePhoto(){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100,outputStream);
+
+        byte[] byteArray = outputStream.toByteArray();
+        IOUtils.closeQuietly(outputStream);
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP | Base64.URL_SAFE | Base64.NO_PADDING);
     }
 
     private void getImage() {
@@ -203,7 +234,7 @@ public class FriendPageActivity extends ActionBarActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
-            saveImage();
+            sendImage();
         }
     }
 
