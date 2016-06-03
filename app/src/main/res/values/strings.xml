@@ -15,6 +15,7 @@
     <string name="cancel">Cancel</string>
     <string name="dialog_new_topic_send_topic">Send Topic</string>
     <string name="title_activity_login3">Joey</string>
+    <string name="Home">Home</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

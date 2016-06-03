@@ -38,4 +38,5 @@ public interface ToGet {
     //Get the photo as a string containg bytes
     @GET("/{get}")
     public Call<String> getPhoto(@Path("get") String url, @Query("username") String username, @Query("friend") String friend);
+
 }

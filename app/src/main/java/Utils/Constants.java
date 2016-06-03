@@ -10,5 +10,9 @@ public class Constants {
     public static String friendRequests = "friendRequests";
 
     public static String errorMessage = "Error with connection, try again";
+    public static int START_NEW_HUNT = 1;
+    public static int HOME = 2;
+    public static int FRIEND_LIST = 3;
+    public static int SETTINGS = 4;
 
 }
