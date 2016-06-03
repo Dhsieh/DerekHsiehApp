@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,8 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainPageActivity extends AppCompatActivity {
 
+public class MainPageActivity extends AppCompatActivity {
 
     private String username;
     private int numFriendRequests;
@@ -172,6 +173,7 @@ public class MainPageActivity extends AppCompatActivity {
                 Toast.makeText(context, Constants.errorMessage, Toast.LENGTH_SHORT);
             }
         });
+
     }
 
     @Override
@@ -181,19 +183,6 @@ public class MainPageActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_navibar, menu);
         return true;
     }
-
-//    public void goToFriendRequests(View view) {
-//        Intent goToFriendRequestActivity = new Intent(this, FriendRequestActivity.class);
-//        goToFriendRequestActivity.putExtra("username", username);
-//        startActivity(goToFriendRequestActivity);
-//    }
-
-//    public void goToFriendList(View view) {
-//        Intent goToFriendListActivity = new Intent(this, FriendListActivity.class);
-//        goToFriendListActivity.putExtra("username", username);
-//        goToFriendListActivity.putExtra(Constants.friendRequests, numFriendRequests);
-//        startActivity(goToFriendListActivity);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
