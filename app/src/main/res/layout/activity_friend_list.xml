@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,17 +12,26 @@
 
     <TextView
         android:id="@+id/Username"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/list"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="Friends"
         android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/Username"
+        android:onClick="onBackPressed"
+        android:text="Back" />
+
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"> </ListView>
+        android:layout_below="@id/Username"></ListView>
 
 
-</LinearLayout>
+</RelativeLayout>

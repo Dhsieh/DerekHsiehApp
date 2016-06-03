@@ -1,17 +1,15 @@
 package friends.friendPage;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,10 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.util.concurrent.ExecutionException;
 
-import Utils.RetroFit.RetroFitInterface;
 import Utils.Constants;
+import Utils.RetroFit.RetroFitInterface;
 import Utils.RetroFit.ToGet;
 import Utils.RetroFit.ToPost;
 import derekhsieh.derekhsiehapp.R;
@@ -35,7 +32,6 @@ import retrofit2.Response;
  * Created by phoenix on 12/23/15.
  * Activity where the user can take a new picture, send a new topic, or rate and image
  */
-// TODO: I could not come up with a better name for the activity for the life of me, so I'm open to any suggestions.
 public class FriendPageActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -44,6 +40,7 @@ public class FriendPageActivity extends ActionBarActivity {
     private ImageView cameraImageView;
     private String user;
     private String friend;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +49,8 @@ public class FriendPageActivity extends ActionBarActivity {
         this.user = extras.getString(Constants.username);
         this.friend = extras.getString("friend");
         String friendsImage = friend + "'s image";
+        if(extras.containsKey("status"))
+            this.status = extras.getString("status");
 
         setContentView(R.layout.activity_friend_page);
 
@@ -129,7 +128,6 @@ public class FriendPageActivity extends ActionBarActivity {
         rateImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Opens a dialog where the user can select a rating
                 ImageRatingDialog ratingDialog = new ImageRatingDialog(context);
                 ratingDialog.show();

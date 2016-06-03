@@ -29,7 +29,7 @@ public class NewTopicDialog extends Dialog{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_new_topic);
-        setTitle("Rate Image");
+        setTitle("Send Topic");
 
         final EditText newTopicEditText = (EditText) findViewById(R.id.newTopicEditText);
 
