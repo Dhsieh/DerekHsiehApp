@@ -22,7 +22,7 @@ public class RetroFitInterface {
 //     private static String baseUrl = "http://192.168.0.162:4567";
 
     //Derek's
-    private static String baseUrl = "http://192.168.0.108:4567";
+    private static String baseUrl = "http://146.148.57.154:4567";
 
     public static Retrofit createRetroFit(){
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
