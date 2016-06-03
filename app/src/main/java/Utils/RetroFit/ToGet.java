@@ -31,6 +31,11 @@ public interface ToGet {
     @GET("/{get}")
     public Call<Float> getRating(@Path("get") String url, @Query("username") String username, @Query("friend") String friend);
 
+    //Get all the current hunts by user this is retreivedi n the form of an object
     @GET("/{get}")
     public Call<CurrentHuntResponse> getCurrentHuntResponse(@Path("get") String url, @Query("username") String username);
+
+    //Get the photo as a string containg bytes
+    @GET("/{get}")
+    public Call<String> getPhoto(@Path("get") String url, @Query("username") String username, @Query("friend") String friend);
 }

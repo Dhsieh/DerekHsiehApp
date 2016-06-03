@@ -65,8 +65,6 @@ public class MainPageActivity extends ListActivity {
             }
         });
 
-
-
         ((Button) findViewById(R.id.NumFriendRequests)).setText(String.valueOf(numFriendRequests));
         //Start new hunt by sending a topic
         ((Button) findViewById(R.id.StartNewHunt)).setOnClickListener(new View.OnClickListener() {
